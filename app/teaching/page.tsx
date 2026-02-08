@@ -6,13 +6,14 @@ import { motion } from 'framer-motion';
 import { getPublicPath } from '@/lib/paths';
 
 const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  in: { opacity: 1, y: 0 },
-  out: { opacity: 0, y: -20 },
+  initial: { opacity: 0 },
+  in: { opacity: 1 },
+  out: { opacity: 0 },
 };
 
 const pageTransition = {
-  duration: 0.5,
+  duration: 0.3,
+  ease: 'easeOut',
 };
 
 interface Subject {
@@ -50,7 +51,7 @@ export default function Teaching() {
 
   return (
     <motion.div
-      initial="initial"
+      initial={false}
       animate="in"
       exit="out"
       variants={pageVariants}

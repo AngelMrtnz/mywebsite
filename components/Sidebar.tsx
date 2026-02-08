@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
+import { getPublicPath } from '@/lib/paths';
 import { 
   SiInstagram, 
   SiOrcid, 
@@ -40,8 +40,8 @@ const Sidebar = () => {
     >
       <div className="text-center mb-10">
         <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 300 }}>
-          <Image
-            src="/images/yo.jpg"
+          <img
+            src={getPublicPath('/images/yo.jpg')}
             alt="Ángel Martínez Muñoz"
             width={128}
             height={128}
