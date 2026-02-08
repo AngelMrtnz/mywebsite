@@ -17,3 +17,8 @@
   }
 }
 
+/* Force KaTeX rendered math to use the correct black color */
+.katex {
+  @apply text-urv-black;
+}
+

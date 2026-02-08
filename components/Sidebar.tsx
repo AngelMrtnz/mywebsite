@@ -14,7 +14,7 @@ import {
 } from 'react-icons/si';
 
 const navLinks = [
-  { name: 'About Me', href: '/' },
+  { name: 'About me', href: '/' },
   { name: 'Research', href: '/research' },
   { name: 'Conferences', href: '/conferences' },
   { name: 'Teaching', href: '/teaching' },
@@ -75,7 +75,7 @@ const Sidebar = () => {
       </nav>
 
       <div className="text-center">
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-4 items-center">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -86,9 +86,9 @@ const Sidebar = () => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.2 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="text-white transition-opacity hover:opacity-75"
+                  className="text-white transition-opacity hover:opacity-75 flex items-center justify-center"
                 >
-                  <Icon size={28} />
+                  <Icon size={28} style={{ display: 'flex', transform: social.name === 'ResearchGate' ? 'translateY(-2px)' : 'none' }} />
                 </motion.a>
               );
             })}

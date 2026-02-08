@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BlockMath } from 'react-katex';
+import LatexRenderer from './LatexRenderer';
 import { FaFilePdf } from 'react-icons/fa';
 import { SiArxiv, SiDoi } from 'react-icons/si';
 
@@ -11,7 +11,7 @@ import { SiArxiv, SiDoi } from 'react-icons/si';
 export interface Paper {
   title: string;
   summary: string;
-  authors: string[];
+  authors: { name: string; url: string | null }[];
   arxivLink: string;
   pdfLink: string;
   doi?: string;
@@ -38,8 +38,13 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
             <span className="text-urv-black mr-3">[{number}]</span>
             {paper.title}
           </h2>
-          <p className="mt-2 text-md italic text-urv-black">
-            {paper.authors.join(', ')}
+          <p className="mt-2 text-md text-urv-black">
+            {paper.authors.map((author, idx) => (
+              <span key={idx}>
+                {author.name}
+                {idx < paper.authors.length - 1 && ', '}
+              </span>
+            ))}
           </p>
           <div className="mt-3 flex items-center gap-4">
             <span className="text-xs font-semibold bg-comp-yellow text-urv-black px-2 py-1 rounded-full">
@@ -98,7 +103,7 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
             className="overflow-hidden"
           >
             <div className="mt-4 pt-4 border-t border-gray-200 text-justify text-urv-black">
-              <BlockMath math={paper.summary} />
+              <LatexRenderer text={paper.summary} />
             </div>
           </motion.div>
         )}

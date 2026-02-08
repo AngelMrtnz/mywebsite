@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teaching>
+  <subject>
+    <title>ANÀLISI MATEMÀTICA I</title>
+    <year>2025-2026 (Q1, Q2)</year>
+    <description>Problem sessions. Taught for different engineering degrees.</description>
+  </subject>
+  <subject>
+    <title>ÀLGEBRA LINEAL</title>
+    <year>2025-2026 (Q1)</year>
+    <description>Problem sessions. Taught for different engineering degrees.</description>
+  </subject>
+</teaching>
