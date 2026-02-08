@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* White background with dark foreground for readable content */
+    --background: 255 255 255; /* white */
+    --foreground: 17 24 39; /* gray-900 / near black for text */
+
+    --card: 255 255 255;
+    --card-foreground: 17 24 39;
+
+    --popover: 255 255 255;
+    --popover-foreground: 17 24 39;
+
+    --muted: 107 114 128;
+    --muted-foreground: 145 158 171;
+
+    --accent: 171 22 43; /* keep the accent red */
+    --accent-foreground: 255 255 255;
+
+    /* Primary is the red theme */
+    --primary: 171 22 43;
+    --primary-foreground: 255 255 255; /* white text on red */
+
+    --secondary: 156 22 40;
+    --secondary-foreground: 255 255 255;
+
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+
+    --border: 226 232 240;
+    --input: 226 232 240;
+    --ring: 171 22 43;
+    
+    --radius: 0.5rem;
+  }
+
+  body {
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+    font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    display: flex; /* Enable flex container */
+    flex-direction: column; /* Stack children vertically */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+
+  a {
+    color: rgb(var(--primary));
+    text-decoration: underline;
+  }
+
+  a:hover {
+    filter: brightness(0.9);
+  }
+
+  /* Button link styles: no underline and nicer font */
+  .custom-btn,
+  .btn,
+  .btn-group a,
+  .button {
+    text-decoration: none !important;
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+  }
+}
+
+/* Custom class for the horizontal line separator */
+.scanner-hr {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(171, 22, 43, 0.5),
+    transparent
+  );
+  margin: 2rem 0;
+  border: none;
+}
+
+/* Footer styles (for Next.js pages) */
+.footer-container {
+    background-color: rgb(var(--accent)); /* Using a CSS variable for consistency */
+    padding: 1rem 2rem; /* Reduced vertical padding */
+    color: rgb(var(--accent-foreground));
+    text-align: center;
+    width: 100%;
+    margin-top: auto; /* Pushes the footer to the bottom */
+    display: flex;
+    flex-direction: row; /* Changed to row for horizontal layout */
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    flex-wrap: wrap; /* Allow items to wrap if space is limited */
+    gap: 1.5rem; /* Space between items in the footer */
+}
+
+.footer-social-links {
+    margin-bottom: 0; /* Remove bottom margin as it's now horizontal */
+    display: flex; /* Ensure social links are also a flex container */
+    gap: 15px; /* Space between social logos */
+    align-items: center; /* Align logos vertically */
+}
+
+.footer-email {
+    font-size: 0.9rem; /* Slightly smaller font size */
+    margin: 0; /* Remove default margin */
+}
+
+.footer-social-links .social-logo { /* Targeting social-logo specifically within footer */
+    height: 30px !important; /* Smaller image size */
+    width: auto;
+}

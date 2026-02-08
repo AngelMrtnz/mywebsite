@@ -19,16 +19,46 @@
             <a href="teaching.html" class="custom-btn btn">Teaching</a>
         </div>
     <div class="scanner-hr"></div>
-    <div id="arxivfeed">
-        <script type="text/javascript">
-            var arxiv_authorid = "martinezmunoz_a_1";
-            var arxiv_format = "arxiv";
-        </script>
-        <script type="text/javascript" src="https://arxiv.org/js/myarticles.js"></script>
-    </div>
-    </footer>
+    <div id="list"></div>
+    <script>
+    fetch('papers.xml')
+        .then(response => response.text())
+        .then(str => {
+        // Convert text to XML
+        const xml = new DOMParser().parseFromString(str, "text/xml");
+        
+        // Extract titles and print them
+        let html = "";
+        xml.querySelectorAll("entry").forEach(paper => {
+            const title = paper.querySelector("title").textContent;
+            const summary = paper.querySelector("summary").textContent;
+            html += `<h3>${title}</h3><p>${summary}</p>`;
+        });
 
-    </div>
+        document.getElementById('list').innerHTML = html;
+        });
+    </script>
+
+<footer class="footer-container">
+  <div class="social-links footer-social-links">
+    <a href="https://www.instagram.com/angelmm__/" target="_blank" rel="noopener noreferrer">
+      <img src="Instagram_icon.png" class="social-logo" alt="Instagram" />
+    </a>
+    <a href="https://orcid.org/my-orcid?orcid=0009-0002-8944-5403" target="_blank" rel="noopener noreferrer">
+      <img src="ORCID_iD.svg.png" class="social-logo" alt="ORCID" />
+    </a>
+    <a href="https://www.researchgate.net/profile/Angel-Martinez-Munoz?ev=hdr_xprf" target="_blank" rel="noopener noreferrer">
+      <img src="researcg_gate.png" class="social-logo" alt="ResearchGate" />
+    </a>
+    <a href="https://scholar.google.com/citations?user=rC-onNMAAAAJ&hl=es" target="_blank" rel="noopener noreferrer">
+      <img src="Google_Scholar_logo.svg.png" class="social-logo" alt="Google Scholar" />
+    </a>
+    <a href="https://arxiv.org/a/martinezmunoz_a_1.html" target="_blank" rel="noopener noreferrer">
+      <img src="ArXiv_logo_2022.png" class="social-logo" alt="arXiv" />
+    </a>
+  </div>
+  <p class="email-text footer-email">e-mail: angel.martinezm(at)urv.cat</p>
+</footer>
 
     </body>
 </html>
