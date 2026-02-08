@@ -27,7 +27,10 @@ jobs:
       - name: Build for GitHub Pages
         env:
           NEXT_PUBLIC_BASE_PATH: '/mywebsite'
-        run: npm run build
+        run: |
+          npm run build
+          echo "Build complete. Checking output folder:"
+          ls -la out/ | head -20
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -35,5 +38,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
           cname: false
+          force_orphan: true
+
 
 
