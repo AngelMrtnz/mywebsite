@@ -1,15 +1,12 @@
 // lib/paths.ts
-import { useRouter } from 'next/navigation';
-
 export const getPublicPath = (path: string) => {
-  // In development: just use the path as-is
-  // In production on GitHub Pages: basePath is automatically handled by Next.js
-  // However, for client-side fetch, we need to add it manually
+  // Get the base path from environment or detect from current location
   if (typeof window !== 'undefined') {
-    // Check if we're on GitHub Pages (contains 'angelmrtnz.github.io')
-    if (window.location.hostname.includes('github.io')) {
+    // On GitHub Pages: add the /mywebsite prefix
+    if (window.location.pathname.includes('/mywebsite')) {
       return `/mywebsite${path}`;
     }
   }
+  // In development or on other hosts: use path as-is
   return path;
 };
