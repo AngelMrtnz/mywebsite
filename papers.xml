@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ángel Martínez Muñoz's articles on arXiv</title>
+  <link rel="describes" href="https://orcid.org/0009-0002-8944-5403"/>
+  <updated>2026-02-08T00:00:00-05:00</updated>
+  <id>http://arxiv.org/a/martinezmunoz_a_1</id>
+  <link href="http://arxiv.org/a/martinezmunoz_a_1.atom" rel="self" type="application/atom+xml"/>
+  <link rel="describes" href="http://arxiv.org/a/martinezmunoz_a_1"/>
+  <entry>
+    <id>http://arxiv.org/abs/2602.04882v1</id>
+    <updated>2026-02-04T13:59:38-05:00</updated>
+    <published>2026-02-04T13:59:38-05:00</published>
+    <title>Pairs of differential forms: a framework for precontact geometry</title>
+    <summary>Precontact manifolds extend contact geometry by weakening the maximal non-integrability condition of the defining $1$-form. We clarify the geometric foundations of this structure by studying general pairs of a $1$-form and a $2$-form under mild regularity conditions. We characterize them through their class, analyse the role of distinguished vector fields, such as Reeb or Liouville fields, and study other associated geometrical objects. Precontact structures are then treated as the special case of pairs formed by a nowhere-vanishing $1$-form and its exterior derivative. We also define Hamiltonian dynamics on precontact manifolds. Several examples are presented to illustrate the theory.</summary>
+    <author>
+      <name>Xavier Gràcia</name>
+    </author>
+    <author>
+      <name>Àngel Martínez-Muñoz</name>
+    </author>
+    <author>
+      <name>Xavier Rivas</name>
+    </author>
+    <link href="http://arxiv.org/abs/2602.04882v1" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/2602.04882v1" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="math.DG" scheme="http://arxiv.org/schemas/atom" label="Differential Geometry (math.DG)"/>
+    <category term="math.DG" scheme="http://arxiv.org/schemas/atom" label="Differential Geometry (math.DG)"/>
+    <category term="math-ph" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="math.MP" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="53D10, 53D05, 58A10, 37J39" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.13401v1</id>
+    <updated>2025-11-17T09:16:21-05:00</updated>
+    <published>2025-11-17T09:16:21-05:00</published>
+    <title>The evolution operator connecting the Lagrangian and Hamiltonian formalisms for contact systems</title>
+    <summary>Some mechanical systems with dissipation can be described within the framework of the so-called contact mechanics: a modified form of the Euler-Lagrange equations stemming from Herglotz's variational principle, which admits a geometric formulation in terms of contact geometry. On the other hand, the study of singular Lagrangian systems and Dirac's theory of constraints can be enhanced by using the evolution operator $K$ that connects the Lagrangian and Hamiltonian formalisms.
+  The main purpose of this paper is to transpose this evolution operator to the case of contact mechanics, and to study some of its main properties. In particular, we show that it provides a geometric description of the evolution equations and it relates the Hamiltonian and Lagrangian constraints. To illustrate the theory, we provide examples of singular contact systems based on modified versions of the simple pendulum and the Cawley Lagrangian.</summary>
+    <author>
+      <name>Xavier Gràcia</name>
+    </author>
+    <author>
+      <name>Ángel Martínez-Muñoz</name>
+    </author>
+    <author>
+      <name>Xavier Rivas</name>
+    </author>
+    <author>
+      <name>Narciso Román-Roy</name>
+    </author>
+    <arxiv:comment xmlns:arxiv="http://arxiv.org/schemas/atom">25pp</arxiv:comment>
+    <link href="http://arxiv.org/abs/2511.13401v1" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/2511.13401v1" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="math-ph" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="math-ph" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="math.DG" scheme="http://arxiv.org/schemas/atom" label="Differential Geometry (math.DG)"/>
+    <category term="math.MP" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="70G45, 37J39, 37J55, 70H03, 70H05, 70H45" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+</feed>
