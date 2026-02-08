@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { getPublicPath } from '@/lib/paths';
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -25,7 +26,7 @@ export default function Teaching() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/teaching.xml')
+    fetch(getPublicPath('/teaching.xml'))
       .then(response => response.text())
       .then(str => {
         const parser = new DOMParser();

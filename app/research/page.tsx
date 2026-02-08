@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PaperEntry, { Paper } from '@/components/PaperEntry';
+import { getPublicPath } from '@/lib/paths';
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -22,8 +23,8 @@ export default function Research() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/papers.xml').then(res => res.text()),
-      fetch('/coauthors.json').then(res => res.json())
+      fetch(getPublicPath('/papers.xml')).then(res => res.text()),
+      fetch(getPublicPath('/coauthors.json')).then(res => res.json())
     ])
     .then(([xmlStr, coauthorsData]) => {
       const parser = new DOMParser();

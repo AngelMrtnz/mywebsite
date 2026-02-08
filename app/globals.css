@@ -1,22 +1,29 @@
+/* stylelint-disable-next-line */
 @tailwind base;
+/* stylelint-disable-next-line */
 @tailwind components;
+/* stylelint-disable-next-line */
 @tailwind utilities;
 
 @layer base {
   body {
+    /* stylelint-disable-next-line */
     @apply bg-white text-urv-black;
   }
 
   a {
+    /* stylelint-disable-next-line */
     @apply text-urv-red hover:underline;
   }
 
   /* Override for sidebar nav links */
   .sidebar-nav a {
+    /* stylelint-disable-next-line */
     @apply no-underline;
   }
 }
-
+/* stylelint-disable-next-line */
+  
 /* Force KaTeX rendered math to use the correct black color */
 .katex {
   @apply text-urv-black;
