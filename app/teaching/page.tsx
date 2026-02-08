@@ -56,7 +56,7 @@ export default function Teaching() {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <h1 className="text-4xl font-bold text-urv-red mb-6">Teaching</h1>
+      <h1 className="text-4xl font-bold text-urv-red mb-6">University courses</h1>
       
       {loading ? (
         <p>Loading teaching data...</p>
