@@ -1,12 +1,7 @@
 // lib/paths.ts
+// Public path prefix that's known at build time
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export const getPublicPath = (path: string) => {
-  // Get the base path from environment or detect from current location
-  if (typeof window !== 'undefined') {
-    // On GitHub Pages: add the /mywebsite prefix
-    if (window.location.pathname.includes('/mywebsite')) {
-      return `/mywebsite${path}`;
-    }
-  }
-  // In development or on other hosts: use path as-is
-  return path;
+  return `${BASE_PATH}${path}`;
 };
