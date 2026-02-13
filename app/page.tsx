@@ -80,11 +80,11 @@ export default function Home() {
             </a>.
           </p>
           <p>
-            I completed my Degree in Mathematics (2020–2024) at the Universitat Politècnica de Catalunya (UPC). I wrote my bachelor's thesis on geometric integrators (see{' '}
+            I completed my Degree in Mathematics (2020–2024) at the Universitat Politècnica de Catalunya (UPC). I wrote my bachelor&apos;s thesis on geometric integrators (see{' '}
             <a href={getPublicPath('/theses/bachelor-thesis.pdf')} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">
               here
             </a>
-            ). I then obtained a master's degree in Advanced Mathematics and Mathematical Engineering (2025) from the same institution. I wrote my master's thesis on contact geometry and singular Lagrangian systems (see{' '}
+            ). I then obtained a master&apos;s degree in Advanced Mathematics and Mathematical Engineering (2025) from the same institution. I wrote my master&apos;s thesis on contact geometry and singular Lagrangian systems (see{' '}
             <a href={getPublicPath('/theses/master-thesis.pdf')} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">
               here
             </a>
