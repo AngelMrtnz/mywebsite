@@ -1,0 +1,30 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="32" fill="#90292A"/>
+  
+  <!-- Hair Back (The crazy part) -->
+  <path d="M10 30 C 8 20, 15 5, 32 5 C 49 5, 56 20, 54 30" stroke="#1A1A1A" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M12 25 L 6 20 M 52 25 L 58 20 M 32 6 L 32 2 M 18 10 L 14 6 M 46 10 L 50 6" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Face -->
+  <path d="M16 32 C 16 54, 48 54, 48 32 C 48 20, 16 20, 16 32" fill="#F5D0C5"/>
+
+  <!-- Beard (Full and dark) -->
+  <path d="M16 36 C 16 52, 48 52, 48 36 C 48 40, 44 56, 32 56 C 20 56, 16 40, 16 36 Z" fill="#1A1A1A"/>
+  
+  <!-- Mouth -->
+  <path d="M26 46 Q 32 50, 38 46" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Glasses -->
+  <circle cx="24" cy="32" r="7" stroke="#1A1A1A" stroke-width="2" fill="#F5D0C5"/>
+  <circle cx="40" cy="32" r="7" stroke="#1A1A1A" stroke-width="2" fill="#F5D0C5"/>
+  <line x1="31" y1="32" x2="33" y2="32" stroke="#1A1A1A" stroke-width="2"/>
+
+  <!-- Eyes -->
+  <circle cx="24" cy="32" r="2" fill="#1A1A1A"/>
+  <circle cx="40" cy="32" r="2" fill="#1A1A1A"/>
+
+  <!-- Hair Front (Bangs) -->
+  <path d="M16 26 Q 24 32, 32 24 Q 40 32, 48 26" stroke="#1A1A1A" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+</svg>

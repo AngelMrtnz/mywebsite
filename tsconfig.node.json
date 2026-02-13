@@ -4,7 +4,9 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "allowJs": true,
     "allowSyntheticDefaultImports": true
+    ,"noEmit": true
   },
-  "include": ["vite.config.ts", "vitest.config.ts", "cypress.config.ts", "playwright.config.ts", "next.config.js"]
+  "include": ["next.config.js"]
 }

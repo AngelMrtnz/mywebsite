@@ -19,13 +19,13 @@ jobs:
       - name: Download arXiv Feed
         run: |
           # Replace with your actual arXiv URL
-          curl -o papers.xml "https://arxiv.org/a/martinezmunoz_a_1.atom"
+          curl -o public/papers.xml "https://arxiv.org/a/martinezmunoz_a_1.atom"
 
       - name: Commit and Push if changed
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add papers.xml
+          git add public/papers.xml
           # Only commit if the file has changed
           git commit -m "Auto-update arXiv papers" || exit 0
           git push

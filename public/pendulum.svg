@@ -1,0 +1,26 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pivot point (top center) -->
+  <circle cx="16" cy="4" r="2" fill="#90292A" />
+  
+  <!-- Swinging Group (Rod + Bob) -->
+  <g>
+    <!-- Rod -->
+    <line x1="16" y1="4" x2="16" y2="26" stroke="#231F20" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Bob (Weight) -->
+    <circle cx="16" cy="26" r="5" fill="#90292A" stroke="#231F20" stroke-width="1"/>
+    
+    <!-- Animation: Swing +/- 25 degrees around the pivot (16, 4) -->
+    <!-- keySplines provide a 'physics-like' ease-in-out motion (slow at ends, fast in middle) -->
+    <animateTransform 
+      attributeName="transform" 
+      attributeType="XML" 
+      type="rotate" 
+      values="25 16 4; -25 16 4; 25 16 4" 
+      dur="1.2s" 
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
+    />
+  </g>
+</svg>

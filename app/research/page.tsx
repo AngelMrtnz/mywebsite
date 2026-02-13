@@ -14,7 +14,6 @@ const pageVariants = {
 
 const pageTransition = {
   duration: 0.3,
-  ease: 'easeOut',
 };
 
 export default function Research() {
@@ -23,11 +22,16 @@ export default function Research() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+
     Promise.all([
       fetch(getPublicPath('/papers.xml')).then(res => res.text()),
       fetch(getPublicPath('/coauthors.json')).then(res => res.json())
     ])
     .then(([xmlStr, coauthorsData]) => {
+      if (!isMounted) return;
+      
       const parser = new DOMParser();
       const xml = parser.parseFromString(xmlStr, "text/xml");
       const paperElements = Array.from(xml.querySelectorAll("entry"));
@@ -70,9 +74,14 @@ export default function Research() {
       setLoading(false);
     })
     .catch(error => {
+      if (!isMounted) return;
       console.error("Error fetching data:", error);
       setLoading(false);
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -86,7 +95,11 @@ export default function Research() {
       <h1 className="text-4xl font-bold text-urv-red mb-6">List of publications</h1>
       
       {loading ? (
-        <p>Loading papers...</p>
+        <div className="space-y-8 animate-pulse">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="p-6 border border-gray-100 rounded-lg bg-gray-50 h-40"></div>
+          ))}
+        </div>
       ) : (
         <>
           <div className="space-y-8">

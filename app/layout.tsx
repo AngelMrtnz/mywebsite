@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google"; // Import Lato
 import "./globals.css";
 import "katex/dist/katex.min.css"; // Import KaTeX CSS
-import Sidebar from "../components/Sidebar";
+import LayoutShell from "@/components/LayoutShell";
 
 // Configure Lato font
 const lato = Lato({
@@ -13,6 +13,9 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "Ángel Martínez Muñoz",
   description: "PhD student in Mathematics at Universitat Rovira i Virgili",
+  icons: {
+    icon: '/torus-frames/frame-0.svg',
+  },
 };
 
 export default function RootLayout({
@@ -22,11 +25,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${lato.className} flex`}> {/* Apply font class */}
-        <Sidebar />
-        <main className="flex-1 ml-64 p-8 overflow-auto">
+      <body className={`${lato.className}`}> {/* Apply font class */}
+        <LayoutShell>
           {children}
-        </main>
+        </LayoutShell>
       </body>
     </html>
   );

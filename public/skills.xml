@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skills>
+  <category>
+    <name>Programming</name>
+    <items>C++, Python, Matlab, LaTeX</items>
+  </category>
+  <category>
+    <name>Languages</name>
+    <items>Spanish (Native), Catalan (Native), English (C1 Cambridge)</items>
+  </category>
+  <category>
+    <name>Driving</name>
+    <items>Spanish (B category)</items>
+  </category>
+</skills>

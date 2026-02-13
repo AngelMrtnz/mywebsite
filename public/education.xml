@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<education>
+  <item>
+    <degree>Predoctoral Researcher, Martí i Franquès PhD Fellowship (2025PMF-PIPF-14)</degree>
+    <institution>Departament d'Enginyeria Informàtica i Matemàtiques, Universitat Rovira i Virgili</institution>
+    <period>10.2025 - Ongoing</period>
+    <highlights>
+      <bullet>PhD thesis on singular contact Lagrangian systems</bullet>
+    </highlights>
+  </item>
+  <item>
+    <degree>Master degree in Advanced Mathematics and Mathematical Engineering</degree>
+    <institution>Faculty of Mathematics and Statistics, Universitat Politècnica de Catalunya</institution>
+    <period>9.2024 - 7.2025</period>
+    <highlights>
+      <bullet>Average: 9.3/10</bullet>
+      <bullet>Master thesis on contact geometry and singular Lagrangian systems supervised by profs. Xavier Gràcia Sabaté and Xavier Rivas Guijarro.</bullet>
+    </highlights>
+  </item>
+  <item>
+    <degree>Degree in Mathematics</degree>
+    <institution>Faculty of Mathematics and Statistics, Universitat Politècnica de Catalunya</institution>
+    <period>9.2020 - 7.2024</period>
+    <highlights>
+      <bullet>Average: 8.1/10</bullet>
+      <bullet>Bachelor thesis on geometric integrators supervised by profs. Xavier Gràcia Sabaté and Xavier Rivas Guijarro.</bullet>
+    </highlights>
+  </item>
+</education>

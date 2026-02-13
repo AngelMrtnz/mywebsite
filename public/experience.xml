@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<experience>
+  <item>
+    <role>Teaching at Universitat Rovira i Virgili</role>
+    <organization>Department of Computer Engineering and Mathematics, Tarragona</organization>
+    <period>10/2025 - Ongoing</period>
+    <highlights>
+      <bullet>Problem sessions for mathematical analysis I and linear algebra I, in various engineering degrees.</bullet>
+    </highlights>
+  </item>
+  <item>
+    <role>Collaboration grant, funded by the Spanish Ministry of Education</role>
+    <organization>Department of Mathematics, Universitat Politècnica de Catalunya</organization>
+    <period>10/2024 - 07/2025</period>
+    <highlights>
+      <bullet>Collaborating on research in contact singular Lagrangian systems, directed by prof. Xavier Gràcia Sabaté.</bullet>
+    </highlights>
+  </item>
+  <item>
+    <role>Hardware Assistant</role>
+    <organization>GPASoft</organization>
+    <period>09/2022 - 10/2025</period>
+    <highlights>
+      <bullet>Managing of computer equipment</bullet>
+      <bullet>Dealing with customers</bullet>
+    </highlights>
+  </item>
+  <item>
+    <role>Private teacher</role>
+    <organization>students of university, high school and elementary school</organization>
+    <highlights>
+      <bullet>Teaching mathematics and languages</bullet>
+    </highlights>
+  </item>
+</experience>

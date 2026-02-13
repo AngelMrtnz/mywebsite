@@ -29,16 +29,16 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
     <motion.div
       layout
       initial={{ borderRadius: 8 }}
-      className="p-6 border border-gray-200 rounded-lg"
+      className="p-4 md:p-6 border border-gray-200 rounded-lg bg-white"
     >
-      <motion.div layout className="flex justify-between items-start gap-4">
+      <motion.div layout className="flex flex-col md:flex-row justify-between items-start gap-4">
         {/* Left side: Number and Title */}
-        <div className="flex-grow">
-          <h2 className="text-2xl font-bold text-urv-black">
+        <div className="flex-grow min-w-0">
+          <h2 className="text-xl md:text-2xl font-bold text-urv-black break-words">
             <span className="text-urv-black mr-3">[{number}]</span>
             {paper.title}
           </h2>
-          <p className="mt-2 text-md text-urv-black">
+          <p className="mt-2 text-sm md:text-md text-urv-black leading-relaxed">
             {paper.authors.map((author, idx) => (
               <span key={idx}>
                 {author.name}
@@ -47,8 +47,8 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
             ))}
           </p>
           <div className="mt-3 flex items-center gap-4">
-            <span className="text-xs font-semibold bg-comp-yellow text-urv-black px-2 py-1 rounded-full">
-              Preprint
+            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${paper.doi ? 'bg-comp-light-gray text-urv-black' : 'bg-comp-yellow text-urv-black'}`}>
+              {paper.doi ? 'Published' : 'Preprint'}
             </span>
             {paper.doi && (
               <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold text-urv-black hover:underline">
@@ -60,13 +60,13 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
         </div>
 
         {/* Right side: Icons */}
-        <div className="flex items-center gap-4 text-2xl text-urv-black">
+        <div className="flex items-center gap-6 md:gap-4 text-2xl text-urv-black mt-2 md:mt-0">
           <a
             href={paper.arxivLink}
             target="_blank"
             rel="noopener noreferrer"
             title="View on ArXiv"
-            className="transition-colors hover:text-comp-red"
+            className="transition-colors hover:text-comp-red p-1"
           >
             <SiArxiv />
           </a>
@@ -75,7 +75,7 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
             target="_blank"
             rel="noopener noreferrer"
             title="Download PDF"
-            className="transition-colors hover:text-comp-red"
+            className="transition-colors hover:text-comp-red p-1"
           >
             <FaFilePdf />
           </a>

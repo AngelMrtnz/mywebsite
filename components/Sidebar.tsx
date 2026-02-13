@@ -4,97 +4,95 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { getPublicPath } from '@/lib/paths';
 import { 
-  SiInstagram, 
-  SiOrcid, 
-  SiResearchgate, 
-  SiGooglescholar, 
-  SiArxiv 
-} from 'react-icons/si';
+  FaUser, 
+  FaBookOpen, 
+  FaGlobeAmericas, 
+  FaChalkboardTeacher 
+} from 'react-icons/fa';
 
 const navLinks = [
-  { name: 'About me', href: '/' },
-  { name: 'Research', href: '/research' },
-  { name: 'Conferences', href: '/conferences' },
-  { name: 'Teaching', href: '/teaching' },
+  { name: 'About me', href: '/', icon: FaUser },
+  { name: 'Research', href: '/research', icon: FaBookOpen },
+  { name: 'Conferences', href: '/conferences', icon: FaGlobeAmericas },
+  { name: 'Teaching', href: '/teaching', icon: FaChalkboardTeacher },
 ];
 
-const socialLinks = [
-    { name: 'Instagram', href: 'https://www.instagram.com/angelmm__/', icon: SiInstagram },
-    { name: 'ORCID', href: 'https://orcid.org/my-orcid?orcid=0009-0002-8944-5403', icon: SiOrcid },
-    { name: 'ResearchGate', href: 'https://www.researchgate.net/profile/Angel-Martinez-Munoz?ev=hdr_xprf', icon: SiResearchgate },
-    { name: 'Google Scholar', href: 'https://scholar.google.com/citations?user=rC-onNMAAAAJ&hl=es', icon: SiGooglescholar },
-    { name: 'arXiv', href: 'https://arxiv.org/a/martinezmunoz_a_1.html', icon: SiArxiv },
-];
+interface SidebarProps {
+  className?: string;
+  onLinkClick?: () => void;
+}
 
-const Sidebar = () => {
+const Sidebar = ({ className = '', onLinkClick }: SidebarProps) => {
   const pathname = usePathname();
 
+  // Helper function to check if a link is active, considering potential basePath
+  const isActive = (href: string) => {
+    // Exact match or match after stripping potential basePath
+    if (pathname === href) return true;
+    
+    // If there's a base path, pathname might be /basePath/path
+    // We check if the pathname ends with the href (or is exactly the href after removing base path)
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    if (basePath && pathname === `${basePath}${href === '/' ? '' : href}`) return true;
+    if (basePath && pathname === `${basePath}${href}`) return true;
+
+    return false;
+  };
+
   return (
-    <motion.div
-      initial={{ x: -300, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-      className="bg-urv-red text-white w-64 p-6 flex flex-col h-screen fixed shadow-2xl"
+    <div
+      className={`bg-urv-red text-white w-64 p-6 flex flex-col h-full shadow-2xl overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent ${className}`}
     >
-      <div className="text-center mb-10">
-        <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 300 }}>
-          <img
-            src={getPublicPath('/images/yo.jpg')}
-            alt="Ángel Martínez Muñoz"
-            width={128}
-            height={128}
-            className="rounded-full mx-auto border-4 border-white shadow-lg"
-          />
-        </motion.div>
-        <h1 className="text-2xl font-bold mt-4">Ángel<br/>Martínez Muñoz</h1>
-        <a href="mailto:angel.martinezm@urv.cat" className="flex items-center justify-center gap-2 text-sm mt-4 text-white no-underline transition-opacity hover:opacity-75">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold tracking-wide">Ángel<br/>Martínez Muñoz</h1>
+        <a href="mailto:angel.martinezm@urv.cat" className="flex items-center justify-center gap-2 text-xs mt-3 text-white/80 no-underline transition-opacity hover:opacity-100 hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
           <span>angel.martinezm@urv.cat</span>
         </a>
       </div>
 
+      <div className="w-full h-px bg-white/20 mb-8"></div>
+
+      {/* Navigation Section */}
       <nav className="flex-grow sidebar-nav">
-        <ul>
-          {navLinks.map((link) => (
-            <li key={link.href} className="mb-4">
-              <Link href={link.href} className="no-underline">
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  className={`px-4 py-2 rounded-lg transition-colors duration-200 no-underline ${
-                    pathname === link.href ? 'bg-comp-red text-white font-bold' : 'text-white hover:bg-comp-dark-red'
-                  }`}
+        <ul className="space-y-2">
+          {navLinks.map((link) => {
+            const Icon = link.icon;
+            const active = isActive(link.href);
+            return (
+              <li key={link.href}>
+                <Link 
+                  href={link.href} 
+                  className="no-underline block"
+                  onClick={onLinkClick}
+                  onMouseEnter={() => {
+                    if (link.href === '/research') {
+                      // Pre-warm the cache for research data
+                      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+                      fetch(`${basePath}/papers.xml`).catch(() => {});
+                      fetch(`${basePath}/coauthors.json`).catch(() => {});
+                    }
+                  }}
                 >
-                  {link.name}
-                </motion.div>
-              </Link>
-            </li>
-          ))}
+                  <div
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                      active 
+                        ? 'bg-white text-urv-red font-bold shadow-md transform translate-x-1' 
+                        : 'text-white hover:bg-white/10 hover:translate-x-1'
+                    }`}
+                  >
+                    <Icon size={18} />
+                    <span>{link.name}</span>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
-
-      <div className="text-center">
-        <div className="flex justify-center gap-4 items-center">
-            {socialLinks.map((social) => {
-              const Icon = social.icon;
-              return (
-                <motion.a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                  className="text-white transition-opacity hover:opacity-75 flex items-center justify-center"
-                >
-                  <Icon size={28} style={{ display: 'flex', transform: social.name === 'ResearchGate' ? 'translateY(-2px)' : 'none' }} />
-                </motion.a>
-              );
-            })}
-        </div>
-      </div>
-    </motion.div>
+    </div>
   );
 };
 

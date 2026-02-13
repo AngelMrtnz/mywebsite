@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conferences>
+  <event>
+    <title>Jornada GEOMVAP Nord Hivern 2026</title>
+    <location>Universitat Politècnica de Catalunya</location>
+    <date>02/2026</date>
+    <description>Talk: Doublets in geometric mechanics.</description>
+    <category>organization</category>
+  </event>
+  <event>
+    <title>VIII Iberoamerican Meeting on Geometry, Dynamics and Field theory</title>
+    <location>Faculty of Physics and Mathematics of the Universidad de la Laguna.</location>
+    <date>01/2026</date>
+    <website>https://gmcnetwork.org/?q=activity-detail/2258</website>
+  </event>
+  <event>
+    <title>Jornades GEOMVAP Nord Estiu 2025</title>
+    <location>Universitat Politècnica de Catalunya</location>
+    <date>06/2025</date>
+    <description>Talk: Precontact Hamiltonian systems.</description>
+    <category>organization</category>
+  </event>
+  <event>
+    <title>XVII International ICMAT Summer School on Geometry, Dynamics and Field theory</title>
+    <location>Miraflores de la Sierra, in Madrid, Spain</location>
+    <date>06/2025</date>
+    <description>Presented Poster: Evolution operator for contact systems.</description>
+    <website>https://www.icmat.es/schools/2025/SUMMER-SCHOOL-GMC/</website>
+    <poster>/posters/evolution-operator.pdf</poster>
+  </event>
+  <event>
+    <title>XIX Young Researchers Workshop in Geometry Dynamics and Field Theory</title>
+    <location>University of Verona.</location>
+    <date>01/2025</date>
+    <website>https://sites.google.com/view/xix-yrw-verona/home</website>
+  </event>
+  <event>
+    <title>XXVI Encuentro de Invierno: Geometría, Dinámica y Teoría de Campos</title>
+    <location>Faculty of Science of the Universidad de Zaragoza.</location>
+    <date>01/2025</date>
+    <website>https://eventos.unizar.es/144751/detail/xxvi-encuentro-de-invierno-geometria-dinamica-y-teoria-de-campos.html</website>
+  </event>
+  <event>
+    <title>XVI International ICMAT Summer School on Geometry, Dynamics and Field theory</title>
+    <location>Miraflores de la Sierra, in Madrid, Spain</location>
+    <date>06/2024</date>
+    <description>Presented Poster: Variational and Symplectic integrators.</description>
+    <website>https://www.icmat.es/summer-school-gmc/2024/</website>
+    <poster>/posters/variational-integrators.pdf</poster>
+  </event>
+  <event>
+    <title>Geometry and Applications: Modern Mathematical Approaches (Gamma) Seminar</title>
+    <location>Online</location>
+    <date></date>
+    <website>https://www.fuw.edu.pl/KMMF/gamma/</website>
+    <category>organization</category>
+  </event>
+</conferences>
