@@ -104,7 +104,7 @@ export default function Conferences() {
                           {event.description}
                           {event.poster && (
                             <a 
-                              href={import.meta.env.BASE_URL + event.poster}
+                              href={`/mywebsite${event.poster}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-urv-red hover:text-comp-red transition-colors"
