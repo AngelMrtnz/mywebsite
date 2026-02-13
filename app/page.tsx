@@ -3,7 +3,6 @@
 
 import { motion } from 'framer-motion';
 import { getPublicPath } from '@/lib/paths';
-import Image from 'next/image';
 import { 
   SiInstagram, 
   SiOrcid, 
@@ -46,11 +45,10 @@ export default function Home() {
            {/* Profile Photo - Circle Style */}
            <div className="flex-shrink-0">
              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-xl">
-               <Image
-                 src="/images/yo.jpg"
+               <img
+                 src="images/yo.jpg"
                  alt="Ángel Martínez Muñoz"
-                 fill
-                 className="object-cover"
+                 className="w-full h-full object-cover"
                />
              </div>
            </div>
@@ -70,7 +68,7 @@ export default function Home() {
             , Tarragona, Spain, supported by the Martí i Franqués grant (2025PMF-PIPF-14). My primary research interests lie in differential geometry, with a focus on its applications to mathematical physics.
           </p>
           <p>
-            Currently, I am working on my PhD thesis on singular Lagrangian systems and the different geometrical structures that arise in this context, under the supervision of{' '}
+            Currently, I am working on my PhD thesis on singular Lagrangian systems and the different geometrical structures that arise in this context, under the supervision of Professors{' '}
             <a href="https://web.mat.upc.edu/xavier.gracia/" target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">
               Xavier Gràcia Sabaté
             </a>{' '}
