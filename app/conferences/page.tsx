@@ -104,7 +104,7 @@ export default function Conferences() {
                           {event.description}
                           {event.poster && (
                             <a 
-                              href={getPublicPath(event.poster)}
+                              href={event.poster}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-urv-red hover:text-comp-red transition-colors"

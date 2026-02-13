@@ -95,7 +95,7 @@ export default function Carousel() {
         >
           <div className="relative w-full h-full bg-urv-black/90">
             <Image
-              src={getPublicPath(images[currentIndex].src)}
+              src={images[currentIndex].src}
               alt={images[currentIndex].alt}
               fill
               className="object-cover"

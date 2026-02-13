@@ -3,7 +3,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { getPublicPath } from '@/lib/paths';
 import { 
   FaUser, 
   FaBookOpen, 
@@ -64,7 +63,7 @@ const Sidebar = ({ className = '', onLinkClick }: SidebarProps) => {
             return (
               <li key={link.href}>
                 <Link 
-                  href={getPublicPath(link.href)} 
+                  href={link.href} 
                   className="no-underline block"
                   onClick={onLinkClick}
                   onMouseEnter={() => {
