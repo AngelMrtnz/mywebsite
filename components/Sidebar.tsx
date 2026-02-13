@@ -2,7 +2,6 @@
 'use client'; 
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { 
   FaUser, 

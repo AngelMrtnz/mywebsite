@@ -8,7 +8,6 @@ import FaviconAnimator from './FaviconAnimator';
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to closed
-  const [isMobile, setIsMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
@@ -24,18 +23,13 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
     setIsMounted(true);
     
     // Initial check
-    const mobile = window.innerWidth < 1024;
-    setIsMobile(mobile);
     
     // We keep the sidebar closed by default on load for a clean entrance
     // The user can open it when they need navigation
 
     const handleResize = () => {
-      const mobile = window.innerWidth < 1024;
-      setIsMobile(mobile);
-      
       // If resizing to mobile, ensure it stays closed to avoid clutter
-      if (mobile) {
+      if (window.innerWidth < 1024) {
         setIsSidebarOpen(false);
       }
     };

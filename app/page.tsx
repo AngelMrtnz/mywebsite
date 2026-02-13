@@ -9,8 +9,7 @@ import {
   SiOrcid, 
   SiResearchgate, 
   SiGooglescholar, 
-  SiArxiv,
-  SiGmail
+  SiArxiv
 } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 

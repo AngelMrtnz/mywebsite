@@ -13,7 +13,7 @@ const LatexRenderer = ({ text }: LatexRendererProps) => {
   try {
     // First, handle display math ($$ ... $$)
     // We use a regex that matches $$ ... $$ and handles multiline content
-    let renderedContent = text.replace(/\$\$(.*?)\$\$/gs, (match, formula) => {
+    let renderedContent = text.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
       try {
         return katex.renderToString(formula, {
           displayMode: true,
