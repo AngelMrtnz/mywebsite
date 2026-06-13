@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getPublicPath } from '@/lib/paths';
-import { FaGlobe, FaFilePdf, FaYoutube, FaFileAlt } from 'react-icons/fa';
+import { FaGlobe, FaFilePdf, FaYoutube } from 'react-icons/fa';
 import Carousel from '@/components/Carousel';
 
 const pageVariants = {
@@ -100,6 +100,11 @@ export default function Conferences() {
                   <div className="flex justify-between items-start gap-4">
                     <div className="flex-grow">
                       <h2 className="text-xl font-bold text-urv-black mb-1">{event.title}</h2>
+                      {event.notes && (
+                        <p className="text-sm italic text-urv-black mb-1">
+                          Notes available <a href={event.notes} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                        </p>
+                      )}
                       <div className="flex items-center gap-2 mb-2">
                         <p className="text-urv-red font-medium text-sm">{event.location}</p>
                       </div>
@@ -126,17 +131,6 @@ export default function Conferences() {
                               title="View Talk on YouTube"
                             >
                               <FaYoutube />
-                            </a>
-                          )}
-                          {event.notes && (
-                            <a 
-                              href={event.notes}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-urv-red hover:text-comp-red transition-colors"
-                              title="View Notes"
-                            >
-                              <FaFileAlt />
                             </a>
                           )}
                         </p>
@@ -173,6 +167,11 @@ export default function Conferences() {
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-grow">
                         <h2 className="text-xl font-bold text-urv-black mb-1">{event.title}</h2>
+                        {event.notes && (
+                          <p className="text-sm italic text-urv-black mb-1">
+                            Notes available <a href={event.notes} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                          </p>
+                        )}
                         <div className="flex items-center gap-2 mb-2">
                           <p className="text-urv-red font-medium text-sm">{event.location}</p>
                           {event.website && (
@@ -210,17 +209,6 @@ export default function Conferences() {
                                 title="View Talk on YouTube"
                               >
                                 <FaYoutube />
-                              </a>
-                            )}
-                            {event.notes && (
-                              <a 
-                                href={event.notes}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-urv-red hover:text-comp-red transition-colors"
-                                title="View Notes"
-                              >
-                                <FaFileAlt />
                               </a>
                             )}
                           </p>

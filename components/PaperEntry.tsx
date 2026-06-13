@@ -52,21 +52,31 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
               {paper.journalRef}
             </p>
           )}
+          {paper.doi && (
+            <p className="mt-1 text-sm md:text-md text-urv-black italic">
+              DOI: <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.doi}</a>
+            </p>
+          )}
           <div className="mt-3 flex items-center gap-4">
             <span className={`text-xs font-semibold px-2 py-1 rounded-full ${paper.doi ? 'bg-comp-light-gray text-urv-black' : 'bg-comp-yellow text-urv-black'}`}>
               {paper.doi ? 'Published' : 'Preprint'}
             </span>
-            {paper.doi && (
-              <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold text-urv-black hover:underline">
-                <SiDoi />
-                <span>DOI</span>
-              </a>
-            )}
           </div>
         </div>
 
         {/* Right side: Icons */}
         <div className="flex items-center gap-6 md:gap-4 text-2xl text-urv-black mt-2 md:mt-0">
+          {paper.doi && (
+            <a
+              href={`https://doi.org/${paper.doi}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="View DOI"
+              className="transition-colors hover:text-comp-red p-1"
+            >
+              <SiDoi />
+            </a>
+          )}
           <a
             href={paper.arxivLink}
             target="_blank"

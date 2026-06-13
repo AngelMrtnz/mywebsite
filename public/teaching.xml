@@ -10,4 +10,13 @@
     <year>2025-2026 (Q1)</year>
     <description>Problem sessions. Taught for different engineering degrees at URV.</description>
   </subject>
+  <thesis>
+    <title>The Liouville-Arnold theorem for symplectic mechanical systems</title>
+    <type>Master's Thesis</type>
+    <codirector>Xavier Rivas</codirector>
+    <startDate>05/11/2025</startDate>
+    <endDate>05/06/2026</endDate>
+    <department>DEIM</department>
+    <program>Màster universitari en Enginyeria Computacional i Matemàtica</program>
+  </thesis>
 </teaching>
