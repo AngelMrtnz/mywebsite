@@ -38,7 +38,7 @@ export default function Teaching() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(getPublicPath('/teaching.xml'))
+    fetch(getPublicPath('/teaching.xml') + '?v=' + new Date().getTime())
       .then(response => response.text())
       .then(str => {
         const parser = new DOMParser();

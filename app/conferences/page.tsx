@@ -100,11 +100,6 @@ export default function Conferences() {
                   <div className="flex justify-between items-start gap-4">
                     <div className="flex-grow">
                       <h2 className="text-xl font-bold text-urv-black mb-1">{event.title}</h2>
-                      {event.notes && (
-                        <p className="text-sm italic text-urv-black mb-1">
-                          Notes available <a href={event.notes} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
-                        </p>
-                      )}
                       <div className="flex items-center gap-2 mb-2">
                         <p className="text-urv-red font-medium text-sm">{event.location}</p>
                       </div>
@@ -167,11 +162,6 @@ export default function Conferences() {
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-grow">
                         <h2 className="text-xl font-bold text-urv-black mb-1">{event.title}</h2>
-                        {event.notes && (
-                          <p className="text-sm italic text-urv-black mb-1">
-                            Notes available <a href={event.notes} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
-                          </p>
-                        )}
                         <div className="flex items-center gap-2 mb-2">
                           <p className="text-urv-red font-medium text-sm">{event.location}</p>
                           {event.website && (
@@ -213,7 +203,11 @@ export default function Conferences() {
                             )}
                           </p>
                         )}
-                      </div>
+                        {event.notes && (
+                          <p className="text-sm italic text-urv-black mt-1">
+                            Notes available <a href={event.notes} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                          </p>
+                        )}                      </div>
                       {event.date && (
                         <div className="text-right">
                           <span className="text-sm font-bold bg-urv-red text-white px-3 py-1 rounded-full whitespace-nowrap">
