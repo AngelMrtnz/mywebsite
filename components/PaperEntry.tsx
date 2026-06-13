@@ -15,6 +15,7 @@ export interface Paper {
   arxivLink: string;
   pdfLink: string;
   doi?: string;
+  journalRef?: string;
 }
 
 interface PaperEntryProps {
@@ -46,6 +47,11 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
               </span>
             ))}
           </p>
+          {paper.journalRef && (
+            <p className="mt-1 text-sm md:text-md text-urv-black italic">
+              {paper.journalRef}
+            </p>
+          )}
           <div className="mt-3 flex items-center gap-4">
             <span className={`text-xs font-semibold px-2 py-1 rounded-full ${paper.doi ? 'bg-comp-light-gray text-urv-black' : 'bg-comp-yellow text-urv-black'}`}>
               {paper.doi ? 'Published' : 'Preprint'}

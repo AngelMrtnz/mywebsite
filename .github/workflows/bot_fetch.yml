@@ -16,10 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download arXiv Feed
-        run: |
-          # Replace with your actual arXiv URL
-          curl -o public/papers.xml "https://arxiv.org/a/martinezmunoz_a_1.atom"
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Fetch and Merge arXiv Feed
+        run: node .github/scripts/merge_arxiv.js
 
       - name: Commit and Push if changed
         run: |

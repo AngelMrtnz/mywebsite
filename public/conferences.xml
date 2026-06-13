@@ -50,9 +50,19 @@
   </event>
   <event>
     <title>Geometry and Applications: Modern Mathematical Approaches (Gamma) Seminar</title>
-    <location>Online</location>
+    <location>Online seminar organized by the University of Warsaw, the Universitat Rovira i Virgili, and the Polytechnic University of Catalonia</location>
     <date></date>
     <website>https://www.fuw.edu.pl/KMMF/gamma/</website>
+    <description>Talk: Pairs of forms in geometric mechanics.</description>
+    <youtube>https://www.youtube.com/watch?v=DO6yfNHwrFI</youtube>
+    <category>organization</category>
+  </event>
+  <event>
+    <title>I Jornada de Geometria i Física</title>
+    <location>Universitat Rovira i Virgili</location>
+    <date>06/2026</date>
+    <description>Talk: Introducció a les estructures de Dirac. Preliminary notes for the talk are available.</description>
+    <notes>/notes/AMM_DIRAC.pdf</notes>
     <category>organization</category>
   </event>
 </conferences>

@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getPublicPath } from '@/lib/paths';
-import { FaGlobe, FaFilePdf } from 'react-icons/fa';
+import { FaGlobe, FaFilePdf, FaYoutube, FaFileAlt } from 'react-icons/fa';
 import Carousel from '@/components/Carousel';
 
 const pageVariants = {
@@ -24,6 +24,8 @@ interface ConferenceEvent {
   description?: string;
   website?: string;
   poster?: string;
+  youtube?: string;
+  notes?: string;
   category?: string;
 }
 
@@ -46,6 +48,8 @@ export default function Conferences() {
           description: event.querySelector("description")?.textContent || undefined,
           website: event.querySelector("website")?.textContent || undefined,
           poster: event.querySelector("poster")?.textContent || undefined,
+          youtube: event.querySelector("youtube")?.textContent || undefined,
+          notes: event.querySelector("notes")?.textContent || undefined,
           category: event.querySelector("category")?.textContent || undefined,
         }));
         setEvents(parsedEvents);
@@ -113,6 +117,28 @@ export default function Conferences() {
                               <FaFilePdf />
                             </a>
                           )}
+                          {event.youtube && (
+                            <a 
+                              href={event.youtube}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-urv-red hover:text-comp-red transition-colors"
+                              title="View Talk on YouTube"
+                            >
+                              <FaYoutube />
+                            </a>
+                          )}
+                          {event.notes && (
+                            <a 
+                              href={event.notes}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-urv-red hover:text-comp-red transition-colors"
+                              title="View Notes"
+                            >
+                              <FaFileAlt />
+                            </a>
+                          )}
                         </p>
                       )}
                     </div>
@@ -164,6 +190,39 @@ export default function Conferences() {
                         {event.description && (
                           <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2">
                             {event.description}
+                            {event.poster && (
+                              <a 
+                                href={event.poster}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-urv-red hover:text-comp-red transition-colors"
+                                title="View Poster"
+                              >
+                                <FaFilePdf />
+                              </a>
+                            )}
+                            {event.youtube && (
+                              <a 
+                                href={event.youtube}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-urv-red hover:text-comp-red transition-colors"
+                                title="View Talk on YouTube"
+                              >
+                                <FaYoutube />
+                              </a>
+                            )}
+                            {event.notes && (
+                              <a 
+                                href={event.notes}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-urv-red hover:text-comp-red transition-colors"
+                                title="View Notes"
+                              >
+                                <FaFileAlt />
+                              </a>
+                            )}
                           </p>
                         )}
                       </div>

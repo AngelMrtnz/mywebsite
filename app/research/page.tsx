@@ -41,6 +41,7 @@ export default function Research() {
         const summary = paperEl.querySelector("summary")?.textContent || 'No summary';
         const authors = Array.from(paperEl.querySelectorAll("author > name")).map(nameEl => nameEl.textContent || '');
         const doi = paperEl.getElementsByTagNameNS('http://arxiv.org/schemas/atom', 'doi')[0]?.textContent || undefined;
+        const journalRef = paperEl.getElementsByTagNameNS('http://arxiv.org/schemas/atom', 'journal_ref')[0]?.textContent || undefined;
 
         let arxivLink = '';
         let pdfLink = '';
@@ -60,7 +61,7 @@ export default function Research() {
           url: (coauthorsData as Record<string, string | null>)[authorName] || null,
         }));
 
-        return { title, summary, authors: authorsWithLinks, arxivLink, pdfLink, doi };
+        return { title, summary, authors: authorsWithLinks, arxivLink, pdfLink, doi, journalRef };
       });
 
       // Extract unique coauthors (excluding self) for the separate list
