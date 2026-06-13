@@ -205,7 +205,7 @@ export default function Conferences() {
                         )}
                         {event.notes && (
                           <p className="text-sm italic text-urv-black mt-1">
-                            Notes available <a href={event.notes} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                            Notes available <a href={`/mywebsite${event.notes}`} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
                           </p>
                         )}                      </div>
                       {event.date && (
