@@ -28,7 +28,6 @@ interface Thesis {
   codirector?: string;
   startDate: string;
   endDate: string;
-  department: string;
   program: string;
 }
 
@@ -58,9 +57,8 @@ export default function Teaching() {
           const codirector = thesisEl.querySelector("codirector")?.textContent || undefined;
           const startDate = thesisEl.querySelector("startDate")?.textContent || '';
           const endDate = thesisEl.querySelector("endDate")?.textContent || '';
-          const department = thesisEl.querySelector("department")?.textContent || '';
           const program = thesisEl.querySelector("program")?.textContent || '';
-          return { title, type, student, codirector, startDate, endDate, department, program };
+          return { title, type, student, codirector, startDate, endDate, program };
         });
 
         setSubjects(parsedSubjects);
@@ -108,7 +106,7 @@ export default function Teaching() {
           {theses.length > 0 && (
             <section>
               <h2 className="text-3xl font-bold text-urv-red mb-6 border-b border-gray-200 pb-2">
-                Directed Final Study Projects
+                Student supervision
               </h2>
               <div className="space-y-6">
                 {theses.map((thesis, index) => (
@@ -124,7 +122,6 @@ export default function Teaching() {
                       {thesis.student && <p><span className="font-bold">Student:</span> {thesis.student}</p>}
                       <p><span className="font-bold">Type:</span> {thesis.type} {thesis.codirector && `(Co-directed with ${thesis.codirector})`}</p>
                       <p><span className="font-bold">Program:</span> {thesis.program}</p>
-                      <p><span className="font-bold">Department:</span> {thesis.department}</p>
                       <p><span className="font-bold">Duration:</span> {thesis.startDate} - {thesis.endDate}</p>
                     </div>
                   </motion.div>
