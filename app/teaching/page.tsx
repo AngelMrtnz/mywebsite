@@ -24,6 +24,7 @@ interface Subject {
 interface Thesis {
   title: string;
   type: string;
+  student?: string;
   codirector?: string;
   startDate: string;
   endDate: string;
@@ -53,12 +54,13 @@ export default function Teaching() {
         const parsedTheses: Thesis[] = Array.from(xml.querySelectorAll("thesis")).map(thesisEl => {
           const title = thesisEl.querySelector("title")?.textContent || 'Untitled Thesis';
           const type = thesisEl.querySelector("type")?.textContent || 'Thesis';
+          const student = thesisEl.querySelector("student")?.textContent || undefined;
           const codirector = thesisEl.querySelector("codirector")?.textContent || undefined;
           const startDate = thesisEl.querySelector("startDate")?.textContent || '';
           const endDate = thesisEl.querySelector("endDate")?.textContent || '';
           const department = thesisEl.querySelector("department")?.textContent || '';
           const program = thesisEl.querySelector("program")?.textContent || '';
-          return { title, type, codirector, startDate, endDate, department, program };
+          return { title, type, student, codirector, startDate, endDate, department, program };
         });
 
         setSubjects(parsedSubjects);
@@ -119,6 +121,7 @@ export default function Teaching() {
                   >
                     <h3 className="text-xl font-bold text-urv-black mb-2">{thesis.title}</h3>
                     <div className="space-y-2 text-sm text-urv-black">
+                      {thesis.student && <p><span className="font-bold">Student:</span> {thesis.student}</p>}
                       <p><span className="font-bold">Type:</span> {thesis.type} {thesis.codirector && `(Co-directed with ${thesis.codirector})`}</p>
                       <p><span className="font-bold">Program:</span> {thesis.program}</p>
                       <p><span className="font-bold">Department:</span> {thesis.department}</p>
