@@ -34,6 +34,23 @@
     <date>01/2025</date>
     <website>https://sites.google.com/view/xix-yrw-verona/home</website>
   </event>
+    <event>
+    <title>I Jornada de Geometria i Física</title>
+    <location>Universitat Rovira i Virgili</location>
+    <date>06/2026</date>
+    <description>Talk: Introducció a les estructures de Dirac.</description>
+    <notes>/notes/AMM_DIRAC.pdf</notes>
+    <category>organization</category>
+  </event>
+    <event>
+    <title>Geometry and Applications: Modern Mathematical Approaches (Gamma) Seminar</title>
+    <location>Online seminar organized by the University of Warsaw, the Universitat Rovira i Virgili, and the Polytechnic University of Catalonia</location>
+    <date>05/2026</date>
+    <website>https://www.fuw.edu.pl/KMMF/gamma/</website>
+    <description>Talk: Pairs of forms in geometric mechanics.</description>
+    <youtube>https://www.youtube.com/watch?v=DO6yfNHwrFI</youtube>
+    <category>organization</category>
+  </event>
   <event>
     <title>XXVI Encuentro de Invierno: Geometría, Dinámica y Teoría de Campos</title>
     <location>Faculty of Science of the Universidad de Zaragoza.</location>
@@ -48,21 +65,5 @@
     <website>https://www.icmat.es/summer-school-gmc/2024/</website>
     <poster>/posters/variational-integrators.pdf</poster>
   </event>
-  <event>
-    <title>Geometry and Applications: Modern Mathematical Approaches (Gamma) Seminar</title>
-    <location>Online seminar organized by the University of Warsaw, the Universitat Rovira i Virgili, and the Polytechnic University of Catalonia</location>
-    <date>22 May 2026</date>
-    <website>https://www.fuw.edu.pl/KMMF/gamma/</website>
-    <description>Talk: Pairs of forms in geometric mechanics.</description>
-    <youtube>https://www.youtube.com/watch?v=DO6yfNHwrFI</youtube>
-    <category>organization</category>
-  </event>
-  <event>
-    <title>I Jornada de Geometria i Física</title>
-    <location>Universitat Rovira i Virgili</location>
-    <date>06/2026</date>
-    <description>Talk: Introducció a les estructures de Dirac.</description>
-    <notes>/notes/AMM_DIRAC.pdf</notes>
-    <category>organization</category>
-  </event>
+
 </conferences>
