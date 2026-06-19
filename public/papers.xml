@@ -2,10 +2,40 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Ángel Martínez Muñoz's articles on arXiv</title>
   <link rel="describes" href="https://orcid.org/0009-0002-8944-5403"/>
-  <updated>2026-06-13T00:00:00-04:00</updated>
+  <updated>2026-06-19T00:00:00-04:00</updated>
   <id>http://arxiv.org/a/martinezmunoz_a_1</id>
   <link href="http://arxiv.org/a/martinezmunoz_a_1.atom" rel="self" type="application/atom+xml"/>
   <link rel="describes" href="http://arxiv.org/a/martinezmunoz_a_1"/>
+  <entry>
+    <id>http://arxiv.org/abs/2606.20030v1</id>
+    <updated>2026-06-18T06:04:20-04:00</updated>
+    <published>2026-06-18T06:04:20-04:00</published>
+    <title>Poisson and Jacobi structures from 2-covariant tensors</title>
+    <summary>Poisson and Jacobi structures play a fundamental role in the geometric description of many systems arising in classical mechanics. In most cases, the corresponding bivector field is induced by a non-degenerate 2-covariant tensor. In this paper, we present a unified framework for constructing the associated brackets by studying the Poisson and Jacobi structures induced by these tensors. More specifically, under suitable assumptions on the tensor, we derive a formula for computing the Schouten-Nijenhuis bracket of the associated bivector field in terms of the curvature of a certain distribution and the exterior derivative of a differential form. This formula provides the obstruction to the existence of a Poisson or Jacobi structure. To illustrate the theory, we recover the classical brackets associated with symplectic, locally conformally symplectic, cosymplectic, and contact geometries. Finally, we characterize the conditions under which fat bundles and almost cosymplectic structures of order $p$ determine a Jacobi bracket.</summary>
+    <author>
+      <name>Manuel de León</name>
+    </author>
+    <author>
+      <name>Xavier Gràcia</name>
+    </author>
+    <author>
+      <name>Rubén Izquierdo-López</name>
+    </author>
+    <author>
+      <name>Ángel Martínez-Muñoz</name>
+    </author>
+    <author>
+      <name>Xavier Rivas</name>
+    </author>
+    <arxiv:comment xmlns:arxiv="http://arxiv.org/schemas/atom">29 pp</arxiv:comment>
+    <link href="http://arxiv.org/abs/2606.20030v1" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/2606.20030v1" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="math.DG" scheme="http://arxiv.org/schemas/atom" label="Differential Geometry (math.DG)"/>
+    <category term="math.DG" scheme="http://arxiv.org/schemas/atom" label="Differential Geometry (math.DG)"/>
+    <category term="math-ph" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="math.MP" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
+    <category term="53D17, 15A69, 53D10, 53D05, 70G45" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
   <entry>
     <id>http://arxiv.org/abs/2602.04882v1</id>
     <updated>2026-02-04T13:59:38-05:00</updated>
