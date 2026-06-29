@@ -26,6 +26,7 @@ interface ConferenceEvent {
   poster?: string;
   youtube?: string;
   notes?: string;
+  slides?: string;
   category?: string;
 }
 
@@ -50,6 +51,7 @@ export default function Conferences() {
           poster: event.querySelector("poster")?.textContent || undefined,
           youtube: event.querySelector("youtube")?.textContent || undefined,
           notes: event.querySelector("notes")?.textContent || undefined,
+          slides: event.querySelector("slides")?.textContent || undefined,
           category: event.querySelector("category")?.textContent || undefined,
         }));
         setEvents(parsedEvents);
@@ -108,11 +110,22 @@ export default function Conferences() {
                           {event.description}
                           {event.poster && (
                             <a 
-                              href={`/mywebsite${event.poster}`}
+                              href={getPublicPath(event.poster)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-urv-red hover:text-comp-red transition-colors"
                               title="View Poster"
+                            >
+                              <FaFilePdf />
+                            </a>
+                          )}
+                          {event.slides && (
+                            <a 
+                              href={getPublicPath(event.slides)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-urv-red hover:text-comp-red transition-colors"
+                              title="View Slides"
                             >
                               <FaFilePdf />
                             </a>
@@ -128,6 +141,16 @@ export default function Conferences() {
                               <FaYoutube />
                             </a>
                           )}
+                        </p>
+                      )}
+                      {event.slides && (
+                        <p className="text-sm italic text-urv-black mt-1">
+                          Slides available <a href={getPublicPath(event.slides)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                        </p>
+                      )}
+                      {event.notes && !event.slides && (
+                        <p className="text-sm italic text-urv-black mt-1">
+                          Notes available <a href={getPublicPath(event.notes)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
                         </p>
                       )}
                     </div>
@@ -181,11 +204,22 @@ export default function Conferences() {
                             {event.description}
                             {event.poster && (
                               <a 
-                                href={event.poster}
+                                href={getPublicPath(event.poster)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-urv-red hover:text-comp-red transition-colors"
                                 title="View Poster"
+                              >
+                                <FaFilePdf />
+                              </a>
+                            )}
+                            {event.slides && (
+                              <a 
+                                href={getPublicPath(event.slides)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-urv-red hover:text-comp-red transition-colors"
+                                title="View Slides"
                               >
                                 <FaFilePdf />
                               </a>
@@ -203,9 +237,14 @@ export default function Conferences() {
                             )}
                           </p>
                         )}
-                        {event.notes && (
+                        {event.slides && (
                           <p className="text-sm italic text-urv-black mt-1">
-                            Notes available <a href={`/mywebsite${event.notes}`} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                            Slides available <a href={getPublicPath(event.slides)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
+                          </p>
+                        )}
+                        {event.notes && !event.slides && (
+                          <p className="text-sm italic text-urv-black mt-1">
+                            Notes available <a href={getPublicPath(event.notes)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
                           </p>
                         )}                      </div>
                       {event.date && (

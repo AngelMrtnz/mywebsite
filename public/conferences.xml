@@ -27,6 +27,14 @@
     <category>organization</category>
   </event>
   <event>
+    <title>XVIII International ICMAT Summer School on Geometry, Dynamics and Field theory</title>
+    <location>Miraflores de la Sierra, Madrid, Spain</location>
+    <date>06/2026</date>
+    <description>Talk: Pairs of differential forms in geometric mechanics.</description>
+    <slides>/notes/pairs-differential-forms.pdf</slides>
+    <notes>/notes/pairs-differential-forms.pdf</notes>
+  </event>
+  <event>
     <title>VIII Iberoamerican Meeting on Geometry, Dynamics and Field theory</title>
     <location>Faculty of Physics and Mathematics of the Universidad de la Laguna.</location>
     <date>01/2026</date>
