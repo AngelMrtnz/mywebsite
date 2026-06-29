@@ -46,7 +46,7 @@ export default function Home() {
            <div className="flex-shrink-0">
              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-xl">
                <img
-                 src={getPublicPath('/images/yo.jpg?v=2')}
+                 src={getPublicPath('/images/yo.png?v=3')}
                  alt="Ángel Martínez Muñoz"
                  className="w-full h-full object-cover"
                />
