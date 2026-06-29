@@ -105,9 +105,9 @@ export default function Conferences() {
                       <div className="flex items-center gap-2 mb-2">
                         <p className="text-urv-red font-medium text-sm">{event.location}</p>
                       </div>
-                      {event.description && (
-                        <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2">
-                          {event.description}
+                      {(event.description || event.poster || event.slides || event.notes || event.youtube) && (
+                        <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2 flex-wrap">
+                          {event.description && <span>{event.description}</span>}
                           {event.poster && (
                             <a 
                               href={getPublicPath(event.poster)}
@@ -130,6 +130,17 @@ export default function Conferences() {
                               <FaFilePdf />
                             </a>
                           )}
+                          {event.notes && event.notes !== event.slides && (
+                            <a 
+                              href={getPublicPath(event.notes)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-urv-red hover:text-comp-red transition-colors"
+                              title="View Notes"
+                            >
+                              <FaFilePdf />
+                            </a>
+                          )}
                           {event.youtube && (
                             <a 
                               href={event.youtube}
@@ -141,16 +152,6 @@ export default function Conferences() {
                               <FaYoutube />
                             </a>
                           )}
-                        </p>
-                      )}
-                      {event.slides && (
-                        <p className="text-sm italic text-urv-black mt-1">
-                          Slides available <a href={getPublicPath(event.slides)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
-                        </p>
-                      )}
-                      {event.notes && !event.slides && (
-                        <p className="text-sm italic text-urv-black mt-1">
-                          Notes available <a href={getPublicPath(event.notes)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
                         </p>
                       )}
                     </div>
@@ -199,9 +200,9 @@ export default function Conferences() {
                             </a>
                           )}
                         </div>
-                        {event.description && (
-                          <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2">
-                            {event.description}
+                        {(event.description || event.poster || event.slides || event.notes || event.youtube) && (
+                          <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2 flex-wrap">
+                            {event.description && <span>{event.description}</span>}
                             {event.poster && (
                               <a 
                                 href={getPublicPath(event.poster)}
@@ -224,6 +225,17 @@ export default function Conferences() {
                                 <FaFilePdf />
                               </a>
                             )}
+                            {event.notes && event.notes !== event.slides && (
+                              <a 
+                                href={getPublicPath(event.notes)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-urv-red hover:text-comp-red transition-colors"
+                                title="View Notes"
+                              >
+                                <FaFilePdf />
+                              </a>
+                            )}
                             {event.youtube && (
                               <a 
                                 href={event.youtube}
@@ -235,16 +247,6 @@ export default function Conferences() {
                                 <FaYoutube />
                               </a>
                             )}
-                          </p>
-                        )}
-                        {event.slides && (
-                          <p className="text-sm italic text-urv-black mt-1">
-                            Slides available <a href={getPublicPath(event.slides)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
-                          </p>
-                        )}
-                        {event.notes && !event.slides && (
-                          <p className="text-sm italic text-urv-black mt-1">
-                            Notes available <a href={getPublicPath(event.notes)} target="_blank" rel="noopener noreferrer" className="text-urv-red hover:underline">here</a>.
                           </p>
                         )}                      </div>
                       {event.date && (
