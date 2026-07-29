@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conferences>
+  <event>
+    <title>2nd International Workshop on Geometric Field Theory</title>
+    <location>University of Warsaw, Poland</location>
+    <date>07/2026</date>
+    <description>Talk: Evolution operators for describing linearly singular systems.</description>
+    <slides>/notes/GFT_2026_BEAMER_EVOLUTION_LSS.pdf</slides>
+    <notes>/notes/GFT_2026_BEAMER_EVOLUTION_LSS.pdf</notes>
+  </event>
+  <event>
+    <title>2nd International Workshop: New Advances in Contact and Symplectic Hamiltonian Dynamics</title>
+    <location>Instituto de Ciencias Matemáticas (ICMAT) and CUNEF University, in Madrid, Spain</location>
+    <date>07/2026</date>
+    <description>Talk: One tensor to bracket them all.</description>
+    <slides>/notes/NEW_ADVANCES_2026_ONE_TENSOR_TO_BRACKET_BEAMER.pdf</slides>
+    <notes>/notes/NEW_ADVANCES_2026_ONE_TENSOR_TO_BRACKET_BEAMER.pdf</notes>
+  </event>
     <event>
     <title>I Jornada de Geometria i Física</title>
     <location>Universitat Rovira i Virgili</location>
