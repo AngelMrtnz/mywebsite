@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conferences>
   <event>
+    <title>XXXIV International Fall Workshop on Geometry and Physics</title>
+    <location>Universitat Rovira i Virgili, Tarragona</location>
+    <date>09/2026</date>
+    <description>Participant and organizer. Presented Poster: One tensor to bracket them all (winner of the poster session).</description>
+    <category>organization</category>
+  </event>
+  <event>
     <title>2nd International Workshop on Geometric Field Theory</title>
     <location>University of Warsaw, Poland</location>
     <date>07/2026</date>
