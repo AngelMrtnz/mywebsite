@@ -40,11 +40,6 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
           <h2 className="text-xl md:text-2xl font-bold text-urv-black break-words">
             <span className="text-urv-black mr-3">[{number}]</span>
             {paper.title}
-            {paper.doi && (
-              <span className="text-sm md:text-base font-normal ml-4 italic">
-                DOI: <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.doi}</a>
-              </span>
-            )}
           </h2>
           <p className="mt-2 text-sm md:text-md text-urv-black leading-relaxed">
             {paper.authors.map((author, idx) => (
@@ -54,9 +49,15 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
               </span>
             ))}
           </p>
-          {paper.journalRef && (
+          {(paper.journalRef || paper.doi) && (
             <p className="mt-1 text-sm md:text-md text-urv-black italic">
-              {paper.journalRef}
+              {paper.journalRef && <span>{paper.journalRef}</span>}
+              {paper.journalRef && paper.doi && <span className="mx-4"></span>}
+              {paper.doi && (
+                <span>
+                  DOI: <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.doi}</a>
+                </span>
+              )}
             </p>
           )}
           <div className="mt-3 flex items-center gap-4">
