@@ -23,9 +23,11 @@ https.get(url, (res) => {
             if (id) {
                 const doiMatch = entry.match(/<arxiv:doi[^>]*>.*?<\/arxiv:doi>/);
                 const journalMatch = entry.match(/<arxiv:journal_ref[^>]*>.*?<\/arxiv:journal_ref>/);
+                const pdfMatch = entry.match(/<link title="pdf" href="([^"]+)" rel="related" type="application\/pdf"\/>/);
                 localMeta[id] = {
                     doi: doiMatch ? doiMatch[0] : null,
-                    journal: journalMatch ? journalMatch[0] : null
+                    journal: journalMatch ? journalMatch[0] : null,
+                    pdfHref: pdfMatch ? pdfMatch[1] : null
                 };
             }
         }
@@ -39,6 +41,12 @@ https.get(url, (res) => {
                 }
                 if (localMeta[id].doi && !modifiedEntry.includes('arxiv:doi')) {
                     modifiedEntry = modifiedEntry.replace('</entry>', `  ${localMeta[id].doi}\n  </entry>`);
+                }
+                if (localMeta[id].pdfHref && !localMeta[id].pdfHref.includes('arxiv.org')) {
+                    modifiedEntry = modifiedEntry.replace(
+                        /<link title="pdf" href="[^"]+" rel="related" type="application\/pdf"\/>/,
+                        `<link title="pdf" href="${localMeta[id].pdfHref}" rel="related" type="application/pdf"/>`
+                    );
                 }
                 return modifiedEntry;
             }

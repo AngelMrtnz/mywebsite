@@ -80,7 +80,7 @@
     </author>
     <arxiv:comment xmlns:arxiv="http://arxiv.org/schemas/atom">25pp</arxiv:comment>
     <link href="http://arxiv.org/abs/2511.13401v1" rel="alternate" type="text/html"/>
-    <link title="pdf" href="http://arxiv.org/pdf/2511.13401v1" rel="related" type="application/pdf"/>
+    <link title="pdf" href="/papers/s11005-026-02093-5.pdf" rel="related" type="application/pdf"/>
     <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="math-ph" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
     <category term="math-ph" scheme="http://arxiv.org/schemas/atom" label="Mathematical Physics (math-ph)"/>
     <category term="math.DG" scheme="http://arxiv.org/schemas/atom" label="Differential Geometry (math.DG)"/>
