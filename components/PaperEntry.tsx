@@ -7,6 +7,8 @@ import LatexRenderer from './LatexRenderer';
 import { FaFilePdf } from 'react-icons/fa';
 import { SiArxiv, SiDoi } from 'react-icons/si';
 
+import { getPublicPath } from '@/lib/paths';
+
 // Define the shape of the paper object
 export interface Paper {
   title: string;
@@ -38,6 +40,11 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
           <h2 className="text-xl md:text-2xl font-bold text-urv-black break-words">
             <span className="text-urv-black mr-3">[{number}]</span>
             {paper.title}
+            {paper.doi && (
+              <span className="text-sm md:text-base font-normal ml-4 italic">
+                DOI: <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.doi}</a>
+              </span>
+            )}
           </h2>
           <p className="mt-2 text-sm md:text-md text-urv-black leading-relaxed">
             {paper.authors.map((author, idx) => (
@@ -50,11 +57,6 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
           {paper.journalRef && (
             <p className="mt-1 text-sm md:text-md text-urv-black italic">
               {paper.journalRef}
-            </p>
-          )}
-          {paper.doi && (
-            <p className="mt-1 text-sm md:text-md text-urv-black italic">
-              DOI: <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.doi}</a>
             </p>
           )}
           <div className="mt-3 flex items-center gap-4">
@@ -87,7 +89,7 @@ const PaperEntry = ({ paper, number }: PaperEntryProps) => {
             <SiArxiv />
           </a>
           <a
-            href={paper.pdfLink}
+            href={paper.pdfLink.startsWith('http') ? paper.pdfLink : getPublicPath(paper.pdfLink)}
             target="_blank"
             rel="noopener noreferrer"
             title="Download PDF"
