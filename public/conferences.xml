@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conferences>
   <event>
+    <title>Jornada GEOMVAP Nord Tardor 2026</title>
+    <location>Universitat Politècnica de Catalunya</location>
+    <date>11/2026</date>
+    <description>Talk: Connections and SODEs.</description>
+    <category>organization</category>
+  </event>
+  <event>
     <title>Geometry and Applications: Modern Mathematical Approaches (Gamma) Seminar</title>
     <location>Online seminar organized by the University of Warsaw, the Universitat Rovira i Virgili, and the Polytechnic University of Catalonia</location>
     <date>11/2026</date>
