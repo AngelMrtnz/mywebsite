@@ -1,12 +1,9 @@
-import type { Metadata } from 'next';
 import { FaFilePdf, FaGlobe, FaYoutube } from 'react-icons/fa';
 import Carousel from '@/components/Carousel';
 import { PageTitle, SectionTitle } from '@/components/Headings';
 import IconLink from '@/components/IconLink';
 import { getCarousel, getEvents, type AcademicEvent } from '@/lib/data';
 import { asset } from '@/lib/paths';
-
-export const metadata: Metadata = { title: 'Conferences' };
 
 function EventCard({ event }: { event: AcademicEvent }) {
   const hasDetails = event.description || event.poster || event.slides || event.notes || event.youtube;

@@ -1,8 +1,5 @@
-import type { Metadata } from 'next';
 import { PageTitle, SectionTitle } from '@/components/Headings';
 import { getTeaching } from '@/lib/data';
-
-export const metadata: Metadata = { title: 'Teaching' };
 
 const card = 'p-4 sm:p-6 border border-gray-100 bg-white shadow-sm rounded-lg';
 

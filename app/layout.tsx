@@ -7,7 +7,7 @@ import './globals.css';
 const lato = Lato({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
-  title: { default: 'Ángel Martínez Muñoz', template: '%s · Ángel Martínez Muñoz' },
+  title: 'Ángel Martínez Muñoz', // same tab title on every page
   description: 'PhD student in Mathematics at Universitat Rovira i Virgili',
   icons: { icon: asset('/favicon.svg') },
   referrer: 'strict-origin-when-cross-origin',

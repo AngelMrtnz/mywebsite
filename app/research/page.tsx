@@ -1,10 +1,7 @@
-import type { Metadata } from 'next';
 import 'katex/dist/katex.min.css';
 import { PageTitle, SectionTitle } from '@/components/Headings';
 import PaperEntry from '@/components/PaperEntry';
 import { getCoauthors, getPapers } from '@/lib/data';
-
-export const metadata: Metadata = { title: 'Research' };
 
 export default function Research() {
   const papers = getPapers();
