@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conferences>
   <event>
+    <title>Geometry and Applications: Modern Mathematical Approaches (Gamma) Seminar</title>
+    <location>Online seminar organized by the University of Warsaw, the Universitat Rovira i Virgili, and the Polytechnic University of Catalonia</location>
+    <date>11/2026</date>
+    <website>https://www.fuw.edu.pl/KMMF/gamma/</website>
+    <description>Talk: From 2-covariant tensor fields to Poisson and Jacobi structures.</description>
+    <slides>/notes/GAMMA_2026_BRACKETS_2_COVARIANT_TENSORS.pdf</slides>
+    <notes>/notes/GAMMA_2026_BRACKETS_2_COVARIANT_TENSORS.pdf</notes>
+    <youtube>https://www.youtube.com/watch?v=DwIYENmICdk&amp;t=3677s</youtube>
+    <category>organization</category>
+  </event>
+  <event>
     <title>XXXIV International Fall Workshop on Geometry and Physics</title>
     <location>Universitat Rovira i Virgili, Tarragona</location>
     <date>09/2026</date>
