@@ -46,6 +46,7 @@ export interface Settings {
   previews: number; // how many next pieces to show (1–5)
   ghost: boolean;
   grid: boolean;
+  sound: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -57,6 +58,7 @@ export const DEFAULT_SETTINGS: Settings = {
   previews: 5,
   ghost: true,
   grid: true,
+  sound: true,
 };
 
 export type Action =
@@ -74,7 +76,6 @@ interface Piece {
 
 const COUNTDOWN_MS = 1500;
 const MAX_LOCK_RESETS = 15;
-export const FLASH_MS = 140;
 
 export class Game {
   board: (PieceType | null)[][] = [];
@@ -88,8 +89,12 @@ export class Game {
   /** ms since GO (frozen when finished) */
   time = 0;
   countdown = COUNTDOWN_MS;
-  /** ms left of the little flash shown after clearing lines */
-  flash = 0;
+  /** clears in a row (pieces that each cleared at least one line) */
+  combo = 0;
+  /** how many times lines have been cleared this run (for sounds) */
+  clears = 0;
+  /** lines cleared by the last piece */
+  lastCleared = 0;
 
   private held = new Set<Action>();
   private dasDir: -1 | 0 | 1 = 0;
@@ -115,7 +120,9 @@ export class Game {
     this.lines = 0;
     this.pieces = 0;
     this.time = 0;
-    this.flash = 0;
+    this.combo = 0;
+    this.clears = 0;
+    this.lastCleared = 0;
     this.countdown = COUNTDOWN_MS;
     this.phase = 'countdown';
     this.held.clear();
@@ -188,7 +195,6 @@ export class Game {
   // ---------- time ----------
 
   update(dt: number) {
-    this.flash = Math.max(0, this.flash - dt);
     if (this.phase === 'countdown') {
       this.countdown -= dt;
       if (this.dasDir) this.dasTimer += dt; // DAS can be charged before GO
@@ -354,7 +360,11 @@ export class Game {
     if (cleared) {
       this.board = [...Array.from({ length: cleared }, () => Array(COLS).fill(null)), ...remaining];
       this.lines += cleared;
-      this.flash = FLASH_MS;
+      this.combo++;
+      this.clears++;
+      this.lastCleared = cleared;
+    } else {
+      this.combo = 0;
     }
 
     if (this.lines >= GOAL_LINES) {

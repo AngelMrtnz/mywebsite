@@ -5,6 +5,7 @@ import { DEFAULT_SETTINGS, Game, type Action, type Settings } from './engine';
 import { drawGame, LAYOUT_COLS, LAYOUT_ROWS } from './draw';
 import {
   addScore,
+  bestFor,
   cleanName,
   DEFAULT_KEYS,
   formatTime,
@@ -19,6 +20,8 @@ import {
   type KeyBindings,
   type Score,
 } from './storage';
+import { playClear, unlockAudio } from './sound';
+import { fetchTopScores, onlineLeaderboard, submitScore } from './online';
 
 const ACTION_NAMES: Record<Action, string> = {
   left: 'Move left',
@@ -85,20 +88,57 @@ export default function BlockGame() {
     /* eslint-disable react-hooks/set-state-in-effect -- reading localStorage once after mount */
     setSettings(loadSettings());
     setKeys(loadKeys());
-    setScores(loadScores());
+    if (!onlineLeaderboard) setScores(loadScores());
     const saved = loadName();
     setPlayer(saved);
     setNameDraft(saved);
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
-  /** A run just finished: keep it only if it's this player's best. */
-  const recordRun = useCallback((time: number, pieces: number) => {
-    const date = new Date().toISOString();
-    const { top, personalBest } = addScore({ name: playerRef.current, time, pieces, date });
-    setScores(top);
-    setLastRun({ time, personalBest, date });
+  // Live leaderboard: load it, then refresh every 15 s and whenever the tab comes back
+  const [live, setLive] = useState<'off' | 'ok' | 'error'>(onlineLeaderboard ? 'ok' : 'off');
+  const refreshLeaderboard = useCallback(async () => {
+    if (!onlineLeaderboard) return;
+    try {
+      setScores(await fetchTopScores());
+      setLive('ok');
+    } catch {
+      setLive('error');
+    }
   }, []);
+
+  useEffect(() => {
+    if (!onlineLeaderboard) return;
+    const refreshIfVisible = () => document.visibilityState === 'visible' && refreshLeaderboard();
+    refreshIfVisible();
+    const timer = setInterval(refreshIfVisible, 15000);
+    document.addEventListener('visibilitychange', refreshIfVisible);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', refreshIfVisible);
+    };
+  }, [refreshLeaderboard]);
+
+  /** A run just finished: keep it only if it's this player's best. */
+  const recordRun = useCallback(
+    (time: number, pieces: number) => {
+      const date = new Date().toISOString();
+      const name = playerRef.current;
+      // This browser always remembers your own best (used for the message below the board)
+      const { top, personalBest } = addScore({ name, time, pieces, date });
+      setLastRun({ time, personalBest, date });
+      if (!onlineLeaderboard) {
+        setScores(top);
+        return;
+      }
+      if (personalBest) {
+        submitScore(name, time, pieces)
+          .then(refreshLeaderboard)
+          .catch(() => setLive('error'));
+      }
+    },
+    [refreshLeaderboard]
+  );
 
   // Create the game once; keep its settings in sync
   useEffect(() => {
@@ -117,6 +157,7 @@ export default function BlockGame() {
     let last = performance.now();
     let cellSize = 0;
     let lastPhase = '';
+    let lastClears = 0;
 
     const resize = () => {
       const el = canvas.current;
@@ -147,6 +188,8 @@ export default function BlockGame() {
         // A run can finish inside a key handler (hard drop), so compare with the last frame
         if (g.phase === 'finished' && lastPhase !== 'finished') recordRun(g.time, g.pieces);
         lastPhase = g.phase;
+        if (g.clears > lastClears && g.settings.sound) playClear(g.combo, g.lastCleared);
+        lastClears = g.clears;
         drawGame(ctx, g, cellSize);
       }
       last = now;
@@ -180,6 +223,7 @@ export default function BlockGame() {
       if (isTyping(e.target) || !playerRef.current) return;
       const action = actionFor(e.code);
       if (!action) return;
+      unlockAudio();
       e.preventDefault();
       // Don't let Space/Enter also "click" a button that still has focus
       if (document.activeElement instanceof HTMLButtonElement) document.activeElement.blur();
@@ -220,11 +264,16 @@ export default function BlockGame() {
     restart(); // fresh countdown with the new name
   };
 
-  const personalBest = player ? scores.find((s) => s.name === player) : undefined;
+  // Your own best on this computer (lastRun is read so this updates after each run)
+  const personalBest = player && (lastRun || scores) ? bestFor(player) : undefined;
 
   // On-screen buttons behave like keys: press on touch, release on lift
   const pressAction = useCallback(
-    (action: Action) => (action === 'restart' ? restart() : game.current?.press(action)),
+    (action: Action) => {
+      unlockAudio();
+      if (action === 'restart') restart();
+      else game.current?.press(action);
+    },
     [restart]
   );
   const releaseAction = useCallback((action: Action) => game.current?.release(action), []);
@@ -333,14 +382,20 @@ export default function BlockGame() {
       {/* Side panel: leaderboard + settings */}
       <div className="w-full xl:w-80 space-y-6">
         <section>
-          <h2 className="text-xl font-bold mb-3">Best times</h2>
-          {scores.length === 0 ? (
-            <p className="text-sm text-gray-500">No times yet. Be the first!</p>
-          ) : (
+          <h2 className="text-xl font-bold mb-3 flex items-center gap-2">
+            Best times
+            {live === 'ok' && (
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-green-700 bg-green-50 rounded-full px-2 py-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                live
+              </span>
+            )}
+          </h2>
+          {scores.length > 0 && (
             <ol className="text-sm divide-y divide-gray-100 border border-gray-200 rounded-lg">
               {scores.map((s, i) => (
                 <li
-                  key={s.date}
+                  key={s.name}
                   className={`flex items-center gap-3 px-3 py-2 ${s.name === player ? 'bg-comp-yellow/30 font-bold' : ''}`}
                 >
                   <span className="w-5 text-gray-400">{i + 1}</span>
@@ -350,7 +405,9 @@ export default function BlockGame() {
               ))}
             </ol>
           )}
-          <p className="mt-2 text-xs text-gray-500">One best time per name, saved in this browser.</p>
+          {live === 'error' && (
+            <p className="mt-2 text-xs text-gray-500">Couldn&apos;t reach the online leaderboard.</p>
+          )}
         </section>
 
         <details className="rounded-lg border border-gray-200 p-4" open={false}>
@@ -369,6 +426,10 @@ export default function BlockGame() {
             <label className="flex items-center justify-between text-sm">
               Grid
               <input type="checkbox" checked={settings.grid} onChange={(e) => updateSettings({ grid: e.target.checked })} />
+            </label>
+            <label className="flex items-center justify-between text-sm">
+              Sound
+              <input type="checkbox" checked={settings.sound} onChange={(e) => updateSettings({ sound: e.target.checked })} />
             </label>
 
             <h3 className="pt-2 font-bold text-sm">Controls</h3>

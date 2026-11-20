@@ -1,6 +1,6 @@
 // Draws the game onto a canvas. Layout in cells: hold+stats (5) | board (10) | next (5).
 // Look: dark background, subtle grid, smooth neon blocks, quiet grey text.
-import { COLS, FLASH_MS, GOAL_LINES, HIDDEN, ROWS, SHAPES, type Game, type PieceType } from './engine';
+import { COLS, GOAL_LINES, HIDDEN, ROWS, SHAPES, type Game, type PieceType } from './engine';
 import { formatTime } from './storage';
 
 export const LAYOUT_COLS = 20;
@@ -106,12 +106,6 @@ export function drawGame(ctx: CanvasRenderingContext2D, game: Game, c: number) {
     for (const [x, y] of game.cells()) {
       if (y >= HIDDEN) cell(ctx, bx + x * c, (y - HIDDEN) * c, c, color, playing ? 1 : 0.45);
     }
-  }
-
-  // Soft flash after clearing lines
-  if (game.flash > 0) {
-    ctx.fillStyle = `rgba(255,255,255,${(0.18 * game.flash) / FLASH_MS})`;
-    ctx.fillRect(bx, 0, bw, H);
   }
 
   ctx.strokeStyle = FRAME;
