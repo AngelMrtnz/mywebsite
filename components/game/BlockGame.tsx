@@ -20,7 +20,7 @@ import {
   type KeyBindings,
   type Score,
 } from './storage';
-import { playClear, playLock, unlockAudio } from './sound';
+import { playClear, playLock, playRestart, unlockAudio } from './sound';
 import { fetchTopScores, onlineLeaderboard, submitScore } from './online';
 
 const ACTION_NAMES: Record<Action, string> = {
@@ -149,6 +149,8 @@ export default function BlockGame() {
   const restart = useCallback(() => {
     game.current?.reset();
     setLastRun(null);
+    unlockAudio();
+    if (game.current?.settings.sound) playRestart();
   }, []);
 
   // Game loop: update + draw every frame
