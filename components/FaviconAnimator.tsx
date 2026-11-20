@@ -15,8 +15,8 @@ function drawTorus(ctx: CanvasRenderingContext2D, angle: number): string {
 
   ctx.clearRect(0, 0, SIZE, SIZE);
 
-  for (let u = 0; u < 2 * Math.PI; u += 0.15) {
-    for (let v = 0; v < 2 * Math.PI; v += 0.3) {
+  for (let u = 0; u < 2 * Math.PI; u += 0.12) {
+    for (let v = 0; v < 2 * Math.PI; v += 0.25) {
       // Point on the torus
       const ring = R + r * Math.cos(v);
       const x = ring * Math.cos(u);
@@ -29,10 +29,10 @@ function drawTorus(ctx: CanvasRenderingContext2D, angle: number): string {
       const x2 = x * cosA + z1 * sinA;
       const depth = -x * sinA + z1 * cosA;
 
-      // Front half in URV red with bigger dots, back half in dark grey
+      // Front half in bright green with bigger dots, back half in dark green
       const front = depth < 0;
-      ctx.fillStyle = front ? '#90292A' : '#231F20';
-      const dot = front ? 1.8 : 1;
+      ctx.fillStyle = front ? '#22C55E' : '#166534';
+      const dot = front ? 2 : 1.4;
       ctx.fillRect(SIZE / 2 + x2 * scale, SIZE / 2 + y1 * scale, dot, dot);
     }
   }

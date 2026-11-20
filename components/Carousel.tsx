@@ -32,32 +32,42 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
 
   const arrow =
     'absolute top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/80 text-urv-black shadow-lg ' +
-    'hover:bg-white hover:text-urv-red transition md:opacity-0 group-hover:opacity-100 focus-visible:opacity-100';
+    'hover:bg-white hover:text-urv-red transition';
 
   return (
-    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-xl bg-urv-black shadow-lg group">
+    <div className="relative w-full h-[70vh] min-h-[360px] max-h-[640px] overflow-hidden rounded-xl bg-urv-black shadow-lg group">
       <div
         ref={strip}
         className="flex h-full overflow-x-auto snap-x snap-mandatory scroll-smooth [scrollbar-width:none]"
         onScroll={(e) => onScroll(e.currentTarget)}
       >
-        {images.map((image) => (
-          <figure key={image.src} className="relative flex-none w-full h-full snap-center">
-            {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
-            <img
-              src={asset(`/${image.src.replace(/^\//, '')}`)}
-              alt={image.alt}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover"
-            />
-            {image.caption && (
-              <figcaption className="absolute bottom-8 inset-x-0 p-4 bg-black/40 backdrop-blur-sm text-white text-center text-sm md:text-lg font-medium">
-                {image.caption}
-              </figcaption>
-            )}
-          </figure>
-        ))}
+        {images.map((image, i) => {
+          const src = asset(`/${image.src.replace(/^\//, '')}`);
+          return (
+            <figure key={image.src} className="relative flex-none w-full h-full snap-center overflow-hidden">
+              {/* Blurred copy fills the frame, so portrait and landscape photos both look good */}
+              <div
+                aria-hidden
+                className="absolute inset-0 scale-110 bg-cover bg-center blur-2xl brightness-50"
+                style={{ backgroundImage: `url(${src})` }}
+              />
+              {/* The whole photo, never cropped */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
+              <img
+                src={src}
+                alt={image.alt}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                className="relative w-full h-full object-contain"
+              />
+              {image.caption && (
+                <figcaption className="absolute bottom-0 inset-x-0 px-4 pt-12 pb-10 bg-gradient-to-t from-black/70 to-transparent text-white text-center text-sm md:text-lg font-medium">
+                  {image.caption}
+                </figcaption>
+              )}
+            </figure>
+          );
+        })}
       </div>
 
       <button className={`${arrow} left-4`} onClick={() => goTo(target.current - 1)} aria-label="Previous photo">
