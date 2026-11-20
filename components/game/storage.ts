@@ -8,9 +8,9 @@ export const DEFAULT_KEYS: KeyBindings = {
   right: 'ArrowRight',
   softDrop: 'ArrowDown',
   hardDrop: 'Space',
-  rotateCW: 'ArrowUp',
+  rotateCW: 'KeyX',
   rotateCCW: 'KeyZ',
-  rotate180: 'KeyX',
+  rotate180: 'KeyA',
   hold: 'KeyC',
   restart: 'KeyR',
 };

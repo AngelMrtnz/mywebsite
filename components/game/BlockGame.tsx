@@ -20,7 +20,7 @@ import {
   type KeyBindings,
   type Score,
 } from './storage';
-import { playClear, unlockAudio } from './sound';
+import { playClear, playLock, unlockAudio } from './sound';
 import { fetchTopScores, onlineLeaderboard, submitScore } from './online';
 
 const ACTION_NAMES: Record<Action, string> = {
@@ -158,6 +158,7 @@ export default function BlockGame() {
     let cellSize = 0;
     let lastPhase = '';
     let lastClears = 0;
+    let lastPieces = 0;
 
     const resize = () => {
       const el = canvas.current;
@@ -188,7 +189,11 @@ export default function BlockGame() {
         // A run can finish inside a key handler (hard drop), so compare with the last frame
         if (g.phase === 'finished' && lastPhase !== 'finished') recordRun(g.time, g.pieces);
         lastPhase = g.phase;
-        if (g.clears > lastClears && g.settings.sound) playClear(g.combo, g.lastCleared);
+        if (g.settings.sound) {
+          if (g.pieces > lastPieces) playLock();
+          if (g.clears > lastClears) playClear(g.combo, g.lastCleared);
+        }
+        lastPieces = g.pieces;
         lastClears = g.clears;
         drawGame(ctx, g, cellSize);
       }
@@ -377,20 +382,67 @@ export default function BlockGame() {
           {pad('hardDrop', '⤓')}
           {pad('right', '→')}
         </div>
+
+        <details className="mt-6 rounded-lg border border-gray-200 p-4">
+          <summary className="cursor-pointer font-bold">Settings</summary>
+          <div className="mt-4 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+            <div className="space-y-3">
+              <h3 className="font-bold text-sm">Handling</h3>
+              {number('das', 'DAS (ms)', 0, 500, 'Delay before a held move repeats')}
+              {number('arr', 'ARR (ms)', 0, 200, 'Time between repeats (0 = instant)')}
+              {number('sdf', 'Soft drop speed', 0, 100, 'Times faster than gravity (0 = instant)')}
+              {number('lockDelay', 'Lock delay (ms)', 0, 5000)}
+              {number('gravity', 'Gravity (ms per row)', 16, 5000)}
+              {number('previews', 'Next pieces shown', 1, 5)}
+              <label className="flex items-center justify-between text-sm">
+                Ghost piece
+                <input type="checkbox" checked={settings.ghost} onChange={(e) => updateSettings({ ghost: e.target.checked })} />
+              </label>
+              <label className="flex items-center justify-between text-sm">
+                Grid
+                <input type="checkbox" checked={settings.grid} onChange={(e) => updateSettings({ grid: e.target.checked })} />
+              </label>
+              <label className="flex items-center justify-between text-sm">
+                Sound
+                <input type="checkbox" checked={settings.sound} onChange={(e) => updateSettings({ sound: e.target.checked })} />
+              </label>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="font-bold text-sm">Controls</h3>
+              {(Object.keys(ACTION_NAMES) as Action[]).map((action) => (
+                <div key={action} className="flex items-center justify-between text-sm">
+                  {ACTION_NAMES[action]}
+                  <button
+                    onClick={() => setRebinding(action)}
+                    className={`min-w-[5rem] rounded border px-2 py-1 font-mono ${
+                      rebinding === action ? 'border-urv-red bg-urv-red text-white' : 'border-gray-300 hover:border-urv-red'
+                    }`}
+                  >
+                    {rebinding === action ? 'press a key' : keyLabel(keys[action])}
+                  </button>
+                </div>
+              ))}
+
+              <button
+                onClick={() => {
+                  updateSettings(DEFAULT_SETTINGS);
+                  setKeys(DEFAULT_KEYS);
+                  saveKeys(DEFAULT_KEYS);
+                }}
+                className="mt-2 text-sm text-urv-red hover:underline"
+              >
+                Reset to defaults
+              </button>
+            </div>
+          </div>
+        </details>
       </div>
 
-      {/* Side panel: leaderboard + settings */}
+      {/* Side panel: leaderboard */}
       <div className="w-full xl:w-80 space-y-6">
         <section>
-          <h2 className="text-xl font-bold mb-3 flex items-center gap-2">
-            Best times
-            {live === 'ok' && (
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-green-700 bg-green-50 rounded-full px-2 py-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                live
-              </span>
-            )}
-          </h2>
+          <h2 className="text-xl font-bold mb-3">Best times</h2>
           {scores.length > 0 && (
             <ol className="text-sm divide-y divide-gray-100 border border-gray-200 rounded-lg">
               {scores.map((s, i) => (
@@ -409,56 +461,6 @@ export default function BlockGame() {
             <p className="mt-2 text-xs text-gray-500">Couldn&apos;t reach the online leaderboard.</p>
           )}
         </section>
-
-        <details className="rounded-lg border border-gray-200 p-4" open={false}>
-          <summary className="cursor-pointer font-bold">Settings</summary>
-          <div className="mt-4 space-y-3">
-            {number('das', 'DAS (ms)', 0, 500, 'Delay before a held move repeats')}
-            {number('arr', 'ARR (ms)', 0, 200, 'Time between repeats (0 = instant)')}
-            {number('sdf', 'Soft drop speed', 0, 100, 'Times faster than gravity (0 = instant)')}
-            {number('lockDelay', 'Lock delay (ms)', 0, 5000)}
-            {number('gravity', 'Gravity (ms per row)', 16, 5000)}
-            {number('previews', 'Next pieces shown', 1, 5)}
-            <label className="flex items-center justify-between text-sm">
-              Ghost piece
-              <input type="checkbox" checked={settings.ghost} onChange={(e) => updateSettings({ ghost: e.target.checked })} />
-            </label>
-            <label className="flex items-center justify-between text-sm">
-              Grid
-              <input type="checkbox" checked={settings.grid} onChange={(e) => updateSettings({ grid: e.target.checked })} />
-            </label>
-            <label className="flex items-center justify-between text-sm">
-              Sound
-              <input type="checkbox" checked={settings.sound} onChange={(e) => updateSettings({ sound: e.target.checked })} />
-            </label>
-
-            <h3 className="pt-2 font-bold text-sm">Controls</h3>
-            {(Object.keys(ACTION_NAMES) as Action[]).map((action) => (
-              <div key={action} className="flex items-center justify-between text-sm">
-                {ACTION_NAMES[action]}
-                <button
-                  onClick={() => setRebinding(action)}
-                  className={`min-w-[5rem] rounded border px-2 py-1 font-mono ${
-                    rebinding === action ? 'border-urv-red bg-urv-red text-white' : 'border-gray-300 hover:border-urv-red'
-                  }`}
-                >
-                  {rebinding === action ? 'press a key' : keyLabel(keys[action])}
-                </button>
-              </div>
-            ))}
-
-            <button
-              onClick={() => {
-                updateSettings(DEFAULT_SETTINGS);
-                setKeys(DEFAULT_KEYS);
-                saveKeys(DEFAULT_KEYS);
-              }}
-              className="mt-2 text-sm text-urv-red hover:underline"
-            >
-              Reset to defaults
-            </button>
-          </div>
-        </details>
       </div>
     </div>
   );
