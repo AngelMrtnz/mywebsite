@@ -36,3 +36,7 @@ yarn-error.log*
 
 # OS files
 Thumbs.db
+
+# TypeScript build cache
+*.tsbuildinfo
+next-env.d.ts

@@ -1,13 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  // Set basePath from environment variable
+module.exports = {
+  // Served from https://angelmrtnz.github.io/mywebsite (see .env.production)
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
-  // Optimize for static generation
+  // Plain HTML files for GitHub Pages
   output: 'export',
-  images: {
-    unoptimized: true,
-  },
-}
-
-module.exports = nextConfig
+  images: { unoptimized: true },
+};

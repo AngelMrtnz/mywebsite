@@ -1,7 +1,7 @@
-// lib/paths.ts
-// Public path prefix that's known at build time
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+// The site is served from /mywebsite on GitHub Pages (set in .env.production).
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
-export const getPublicPath = (path: string) => {
-  return `${BASE_PATH}${path}`;
-};
+/** Prefixes a file in /public with the base path. External URLs are returned as-is. */
+export function asset(path: string): string {
+  return /^https?:\/\//.test(path) ? path : `${BASE_PATH}${path}`;
+}

@@ -1,103 +1,64 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import Sidebar from './Sidebar';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import FaviconAnimator from './FaviconAnimator';
+import Sidebar from './Sidebar';
 
+/** Page frame: a menu button, a slide-in sidebar, and the scrolling content area. */
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to closed
-  const [isMounted, setIsMounted] = useState(false);
-  const mainRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const main = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
-  // Scroll to top on route change
+  // New page: start at the top
   useEffect(() => {
-    if (mainRef.current) {
-      mainRef.current.scrollTop = 0;
-    }
+    main.current?.scrollTo(0, 0);
   }, [pathname]);
 
+  // Escape closes the menu
   useEffect(() => {
-    setIsMounted(true);
-    
-    // Initial check
-    
-    // We keep the sidebar closed by default on load for a clean entrance
-    // The user can open it when they need navigation
-
-    const handleResize = () => {
-      // If resizing to mobile, ensure it stays closed to avoid clutter
-      if (window.innerWidth < 1024) {
-        setIsSidebarOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Prevent hydration mismatch
-  if (!isMounted) {
-    return (
-        <div className="flex h-screen bg-white text-urv-black">
-            {/* Matches the 'ml-0' of the main component to prevent jumps */}
-            <main className="flex-1 p-8 pt-20 ml-0 overflow-auto">
-                {children}
-            </main>
-        </div>
-    );
-  }
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden relative">
-       <FaviconAnimator />
-       {/* Toggle Button */}
-       <button
-         className={`fixed top-4 left-4 z-50 p-2 rounded-md transition-colors shadow-lg ${
-            isSidebarOpen 
-              ? 'bg-white text-urv-red hover:bg-gray-100' 
-              : 'bg-urv-red text-white hover:bg-comp-dark-red'
-         }`}
-         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-         aria-label="Toggle Sidebar"
-       >
-         {isSidebarOpen ? <FaTimes /> : <FaBars />}
-       </button>
+    <div className="flex h-screen overflow-hidden">
+      <FaviconAnimator />
 
-       {/* Sidebar Container */}
-       <aside 
-        className={`fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out ${
-            isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      <button
+        className={`fixed top-4 left-4 z-50 p-2 rounded-md transition-colors shadow-lg ${
+          open ? 'bg-white text-urv-red hover:bg-gray-100' : 'bg-urv-red text-white hover:bg-comp-dark-red'
         }`}
-       >
-          <Sidebar 
-            className="h-full w-64 pt-16" 
-            onLinkClick={() => setIsSidebarOpen(false)} 
-          />
-       </aside>
+        onClick={() => setOpen(!open)}
+        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-expanded={open}
+        aria-controls="sidebar"
+      >
+        {open ? <FaTimes /> : <FaBars />}
+      </button>
 
-       {/* Main Content */}
-       <main 
-        ref={mainRef}
-        className="flex-1 h-full min-w-0 overflow-auto transition-all duration-300 ease-in-out ml-0" 
-       >
-         {/* No inner shadow needed as sidebar is now an overlay */}
-         <div className="min-h-full flex flex-col">
-            <div className="flex-1 p-8 pt-20">
-              {children}
-            </div>
-         </div>
-       </main>
+      <aside
+        id="sidebar"
+        className={`fixed inset-y-0 left-0 z-40 transition-[transform,visibility] duration-300 ease-in-out ${
+          open ? 'translate-x-0' : '-translate-x-full invisible'
+        }`}
+      >
+        <Sidebar onNavigate={() => setOpen(false)} />
+      </aside>
 
-       {/* Overlay (Visible whenever sidebar is open) */}
-       {isSidebarOpen && (
-         <div
-           className="fixed inset-0 bg-black/30 z-30 backdrop-blur-sm transition-opacity duration-300"
-           onClick={() => setIsSidebarOpen(false)}
-         />
-       )}
+      {open && (
+        <div className="fixed inset-0 z-30 bg-black/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
+      )}
+
+      <main ref={main} className="flex-1 h-full min-w-0 overflow-auto">
+        <div key={pathname} className="px-4 sm:px-8 pb-8 pt-20 animate-fade-in">
+          {children}
+        </div>
+      </main>
     </div>
   );
 }

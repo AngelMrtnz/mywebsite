@@ -10,15 +10,25 @@
   a {
     @apply text-urv-red hover:underline;
   }
-
-  /* Override for sidebar nav links */
-  .sidebar-nav a {
-    @apply no-underline;
-  }
 }
 
-/* Force KaTeX rendered math to use the correct black color */
+/* Keep KaTeX math the same colour as the text */
 .katex {
   @apply text-urv-black;
 }
 
+/* Long formulas scroll sideways on phones instead of breaking the layout */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

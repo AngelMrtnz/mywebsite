@@ -1,274 +1,83 @@
-// app/conferences/page.tsx
-'use client';
-
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { getPublicPath } from '@/lib/paths';
-import { FaGlobe, FaFilePdf, FaYoutube } from 'react-icons/fa';
+import type { Metadata } from 'next';
+import { FaFilePdf, FaGlobe, FaYoutube } from 'react-icons/fa';
 import Carousel from '@/components/Carousel';
+import IconLink from '@/components/IconLink';
+import { getCarousel, getEvents, type AcademicEvent } from '@/lib/data';
+import { asset } from '@/lib/paths';
 
-const pageVariants = {
-  initial: { opacity: 0 },
-  in: { opacity: 1 },
-  out: { opacity: 0 },
-};
+export const metadata: Metadata = { title: 'Conferences' };
 
-const pageTransition = {
-  duration: 0.3,
-};
+function EventCard({ event }: { event: AcademicEvent }) {
+  const hasDetails = event.description || event.poster || event.slides || event.notes || event.youtube;
 
-interface ConferenceEvent {
-  title: string;
-  location: string;
-  date: string;
-  description?: string;
-  website?: string;
-  poster?: string;
-  youtube?: string;
-  notes?: string;
-  slides?: string;
-  category?: string;
+  return (
+    <div className="p-4 sm:p-6 border border-gray-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between items-start gap-2 sm:gap-4">
+        <div className="flex-grow">
+          <h3 className="text-xl font-bold mb-1">{event.title}</h3>
+          <div className="flex items-center gap-2 mb-2 text-urv-red">
+            <p className="font-medium text-sm">{event.location}</p>
+            {event.website && <IconLink href={event.website} label="Event website" icon={FaGlobe} size={14} />}
+          </div>
+          {hasDetails && (
+            <p className="text-sm mt-2 inline-flex items-center gap-2 flex-wrap">
+              {event.description && <span>{event.description}</span>}
+              <span className="inline-flex gap-1 text-urv-red">
+                {event.poster && <IconLink href={asset(event.poster)} label="Poster" icon={FaFilePdf} />}
+                {event.slides && <IconLink href={asset(event.slides)} label="Slides" icon={FaFilePdf} />}
+                {event.notes && event.notes !== event.slides && (
+                  <IconLink href={asset(event.notes)} label="Notes" icon={FaFilePdf} />
+                )}
+                {event.youtube && <IconLink href={event.youtube} label="Talk on YouTube" icon={FaYoutube} />}
+              </span>
+            </p>
+          )}
+        </div>
+        {event.date && (
+          <span className="text-sm font-bold bg-urv-red text-white px-3 py-1 rounded-full whitespace-nowrap">
+            {event.date}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function EventList({ title, events }: { title: string; events: AcademicEvent[] }) {
+  if (events.length === 0) return null;
+  return (
+    <section>
+      <h2 className="text-2xl font-bold mb-6 border-b border-gray-200 pb-2">{title}</h2>
+      <div className="space-y-6">
+        {events.map((event) => (
+          <EventCard key={event.title + event.date} event={event} />
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export default function Conferences() {
-  const [events, setEvents] = useState<ConferenceEvent[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-    fetch(getPublicPath('/conferences.xml'))
-      .then(res => res.text())
-      .then(xmlStr => {
-        if (!isMounted) return;
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(xmlStr, "text/xml");
-        const parsedEvents = Array.from(doc.querySelectorAll("event")).map(event => ({
-          title: event.querySelector("title")?.textContent || '',
-          location: event.querySelector("location")?.textContent || '',
-          date: event.querySelector("date")?.textContent || '',
-          description: event.querySelector("description")?.textContent || undefined,
-          website: event.querySelector("website")?.textContent || undefined,
-          poster: event.querySelector("poster")?.textContent || undefined,
-          youtube: event.querySelector("youtube")?.textContent || undefined,
-          notes: event.querySelector("notes")?.textContent || undefined,
-          slides: event.querySelector("slides")?.textContent || undefined,
-          category: event.querySelector("category")?.textContent || undefined,
-        }));
-        setEvents(parsedEvents);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error loading conferences:", err);
-        setLoading(false);
-      });
-    return () => { isMounted = false; };
-  }, []);
-
-  const organizedEvents = events.filter(e => e.category === 'organization');
-  const conferenceEvents = events.filter(e => e.category !== 'organization');
+  const events = getEvents();
 
   return (
-    <motion.div
-      initial={false}
-      animate="in"
-      exit="out"
-      variants={pageVariants}
-      transition={pageTransition}
-    >
-      <h1 className="text-4xl font-bold text-urv-red mb-6">Conferences & Academic Events</h1>
-      
-      {loading ? (
-        <div className="animate-pulse space-y-8">
-          {[1, 2, 3].map(i => (
-            <div key={i} className="h-24 bg-gray-50 rounded-lg"></div>
-          ))}
-        </div>
-      ) : (
-        <div className="space-y-12">
-          {/* Regular Conferences Section */}
-          <section>
-            <h2 className="text-2xl font-bold text-urv-black mb-6 border-b border-gray-200 pb-2">
-              Attended Conferences & Schools
-            </h2>
-            <div className="space-y-6">
-              {conferenceEvents.map((event, idx) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="p-6 border border-gray-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="flex-grow">
-                      <h2 className="text-xl font-bold text-urv-black mb-1">{event.title}</h2>
-                      <div className="flex items-center gap-2 mb-2">
-                        <p className="text-urv-red font-medium text-sm">{event.location}</p>
-                      </div>
-                      {(event.description || event.poster || event.slides || event.notes || event.youtube) && (
-                        <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2 flex-wrap">
-                          {event.description && <span>{event.description}</span>}
-                          {event.poster && (
-                            <a 
-                              href={getPublicPath(event.poster)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-urv-red hover:text-comp-red transition-colors"
-                              title="View Poster"
-                            >
-                              <FaFilePdf />
-                            </a>
-                          )}
-                          {event.slides && (
-                            <a 
-                              href={getPublicPath(event.slides)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-urv-red hover:text-comp-red transition-colors"
-                              title="View Slides"
-                            >
-                              <FaFilePdf />
-                            </a>
-                          )}
-                          {event.notes && event.notes !== event.slides && (
-                            <a 
-                              href={getPublicPath(event.notes)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-urv-red hover:text-comp-red transition-colors"
-                              title="View Notes"
-                            >
-                              <FaFilePdf />
-                            </a>
-                          )}
-                          {event.youtube && (
-                            <a 
-                              href={event.youtube}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-urv-red hover:text-comp-red transition-colors"
-                              title="View Talk on YouTube"
-                            >
-                              <FaYoutube />
-                            </a>
-                          )}
-                        </p>
-                      )}
-                    </div>
-                    {event.date && (
-                      <div className="text-right">
-                        <span className="text-sm font-bold bg-urv-red text-white px-3 py-1 rounded-full whitespace-nowrap">
-                          {event.date}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
+    <>
+      <h1 className="text-3xl sm:text-4xl font-bold text-urv-red mb-6">Conferences & Academic Events</h1>
 
-          {/* Local Seminars Section (Formerly Organized Events) */}
-          {organizedEvents.length > 0 && (
-            <section>
-              <h2 className="text-2xl font-bold text-urv-black mb-6 border-b border-gray-200 pb-2">
-                Local Seminars & Workshops
-              </h2>
-              <div className="space-y-6">
-                {organizedEvents.map((event, idx) => (
-                  <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="p-6 border border-gray-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex-grow">
-                        <h2 className="text-xl font-bold text-urv-black mb-1">{event.title}</h2>
-                        <div className="flex items-center gap-2 mb-2">
-                          <p className="text-urv-red font-medium text-sm">{event.location}</p>
-                          {event.website && (
-                            <a 
-                              href={event.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-urv-red hover:text-comp-red transition-colors"
-                              title="Visit Website"
-                            >
-                              <FaGlobe size={14} />
-                            </a>
-                          )}
-                        </div>
-                        {(event.description || event.poster || event.slides || event.notes || event.youtube) && (
-                          <p className="text-urv-black text-sm mt-2 inline-flex items-center gap-2 flex-wrap">
-                            {event.description && <span>{event.description}</span>}
-                            {event.poster && (
-                              <a 
-                                href={getPublicPath(event.poster)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-urv-red hover:text-comp-red transition-colors"
-                                title="View Poster"
-                              >
-                                <FaFilePdf />
-                              </a>
-                            )}
-                            {event.slides && (
-                              <a 
-                                href={getPublicPath(event.slides)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-urv-red hover:text-comp-red transition-colors"
-                                title="View Slides"
-                              >
-                                <FaFilePdf />
-                              </a>
-                            )}
-                            {event.notes && event.notes !== event.slides && (
-                              <a 
-                                href={getPublicPath(event.notes)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-urv-red hover:text-comp-red transition-colors"
-                                title="View Notes"
-                              >
-                                <FaFilePdf />
-                              </a>
-                            )}
-                            {event.youtube && (
-                              <a 
-                                href={event.youtube}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-urv-red hover:text-comp-red transition-colors"
-                                title="View Talk on YouTube"
-                              >
-                                <FaYoutube />
-                              </a>
-                            )}
-                          </p>
-                        )}                      </div>
-                      {event.date && (
-                        <div className="text-right">
-                          <span className="text-sm font-bold bg-urv-red text-white px-3 py-1 rounded-full whitespace-nowrap">
-                            {event.date}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-          )}
-        </div>
-      )}
-
-      {/* Carousel at the bottom */}
-      <div className="mt-16 mb-10">
-        <Carousel />
+      <div className="space-y-12">
+        <EventList
+          title="Attended Conferences & Schools"
+          events={events.filter((e) => e.category !== 'organization')}
+        />
+        <EventList
+          title="Local Seminars & Workshops"
+          events={events.filter((e) => e.category === 'organization')}
+        />
       </div>
-    </motion.div>
+
+      <div className="mt-16 mb-10">
+        <Carousel images={getCarousel()} />
+      </div>
+    </>
   );
 }

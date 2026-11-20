@@ -1,107 +1,73 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-/**
- * FaviconAnimator: Real-time 3D Torus Renderer
- * Renders a mathematically accurate rotating torus directly to the favicon.
- */
+const SIZE = 32;
+const FRAMES = 24; // one full turn
+const FRAME_MS = 100;
+
+/** Draws one frame of a rotating torus and returns it as a PNG data URL. */
+function drawTorus(ctx: CanvasRenderingContext2D, angle: number): string {
+  const R = 2.2; // distance from the centre of the torus to the centre of the tube
+  const r = 0.8; // tube radius
+  const scale = SIZE / (2 * (R + r) + 0.5); // fit the torus in the icon
+  const [cosA, sinA] = [Math.cos(angle), Math.sin(angle)];
+
+  ctx.clearRect(0, 0, SIZE, SIZE);
+
+  for (let u = 0; u < 2 * Math.PI; u += 0.15) {
+    for (let v = 0; v < 2 * Math.PI; v += 0.3) {
+      // Point on the torus
+      const ring = R + r * Math.cos(v);
+      const x = ring * Math.cos(u);
+      const y = ring * Math.sin(u);
+      const z = r * Math.sin(v);
+
+      // Tumble: rotate around the horizontal axis, then the vertical one
+      const y1 = y * cosA - z * sinA;
+      const z1 = y * sinA + z * cosA;
+      const x2 = x * cosA + z1 * sinA;
+      const depth = -x * sinA + z1 * cosA;
+
+      // Front half in URV red with bigger dots, back half in dark grey
+      const front = depth < 0;
+      ctx.fillStyle = front ? '#90292A' : '#231F20';
+      const dot = front ? 1.8 : 1;
+      ctx.fillRect(SIZE / 2 + x2 * scale, SIZE / 2 + y1 * scale, dot, dot);
+    }
+  }
+
+  return ctx.canvas.toDataURL('image/png');
+}
+
+/** Animates the favicon as a spinning torus. Frames are drawn once, then cycled. */
 export default function FaviconAnimator() {
-  const animationRef = useRef<number | null>(null);
-  const angleRef = useRef({ A: 0, B: 0 }); // Rotation angles
-
   useEffect(() => {
-    // Create an offscreen canvas for rendering (32x32 for high-res favicon)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
+    canvas.width = canvas.height = SIZE;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const renderFrame = () => {
-      ctx.clearRect(0, 0, 32, 32);
-      
-      // Update rotation angles (slightly faster)
-      angleRef.current.A += 0.08;
-      angleRef.current.B += 0.04;
-      const { A, B } = angleRef.current;
+    const frames = Array.from({ length: FRAMES }, (_, i) =>
+      drawTorus(ctx, (i / FRAMES) * 2 * Math.PI)
+    );
 
-      const R1 = 0.8; // inner tube radius
-      const R2 = 2.2; // major radius
-      const K2 = 5; 
-      const K1 = 32 * K2 * 3 / (8 * (R1 + R2)); 
+    let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
 
-      const cosA = Math.cos(A);
-      const sinA = Math.sin(A);
-      const cosB = Math.cos(B);
-      const sinB = Math.sin(B);
+    let i = 0;
+    const timer = setInterval(() => {
+      if (document.hidden) return; // nobody is looking: do nothing
+      link!.href = frames[(i = (i + 1) % FRAMES)];
+    }, FRAME_MS);
 
-      // Higher density for a tiny icon
-      for (let theta = 0; theta < 2 * Math.PI; theta += 0.3) {
-        const cosT = Math.cos(theta);
-        const sinT = Math.sin(theta);
-
-        for (let phi = 0; phi < 2 * Math.PI; phi += 0.15) {
-          const cosP = Math.cos(phi);
-          const sinP = Math.sin(phi);
-
-          // 3D coordinates
-          const circleX = R2 + R1 * cosT;
-          const circleY = R1 * sinT;
-
-          const x = circleX * (cosB * cosP + sinA * sinB * sinP) - circleY * cosA * sinB;
-          const y = circleX * (sinB * cosP - sinA * cosB * sinP) + circleY * cosA * cosB;
-          const z = K2 + cosA * circleX * sinP + circleY * sinA;
-          const ooz = 1 / z;
-
-          // Projection
-          const xp = Math.floor(16 + K1 * ooz * x);
-          const yp = Math.floor(16 - K1 * ooz * y);
-
-          // Calculate "Luminance" for visibility
-          const L = (cosP * cosT * sinB - cosA * cosT * sinP - sinA * sinT + cosB * (cosA * sinT - cosT * sinA * sinP));
-          
-          if (L > 0) {
-            // Front part: Vibrant Red
-            ctx.fillStyle = '#E11D48'; 
-            ctx.fillRect(xp, yp, 1.8, 1.8);
-            
-            // Add a white "highlight" dot for extreme contrast
-            if (L > 0.6) {
-              ctx.fillStyle = '#FFFFFF';
-              ctx.fillRect(xp, yp, 1, 1);
-            }
-          } else {
-            // Back part: Dark Gray/Black (visible on white)
-            ctx.fillStyle = '#111827';
-            ctx.fillRect(xp, yp, 1, 1);
-          }
-        }
-      }
-
-      // Update the favicon link
-      let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-      if (!link) {
-        link = document.querySelector("link[rel='shortcut icon']") as HTMLLinkElement;
-      }
-      if (!link) {
-        link = document.createElement('link');
-        link.rel = 'icon';
-        document.getElementsByTagName('head')[0].appendChild(link);
-      }
-      link.href = canvas.toDataURL('image/png');
-
-      // Loop at ~30fps for performance and smoothness
-      setTimeout(() => {
-        animationRef.current = requestAnimationFrame(renderFrame);
-      }, 33);
-    };
-
-    renderFrame();
-
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
+    return () => clearInterval(timer);
   }, []);
 
   return null;

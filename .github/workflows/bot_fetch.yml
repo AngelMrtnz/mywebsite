@@ -2,9 +2,8 @@ name: Update arXiv Papers
 
 on:
   schedule:
-    # Run at 00:00 on the 1st day of every month
-    - cron: '0 0 * * 0' # Every Sunday at midnight
-  workflow_dispatch: # Allows you to run it manually anytime
+    - cron: '0 0 * * 0' # Every Sunday at midnight (UTC)
+  workflow_dispatch: # Run it manually from the Actions tab
 
 permissions:
   contents: write
@@ -13,22 +12,20 @@ jobs:
   update-feed:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '24'
 
-      - name: Fetch and Merge arXiv Feed
-        run: node .github/scripts/merge_arxiv.js
+      - name: Fetch and merge arXiv feed
+        run: node .github/scripts/merge_arxiv.mjs
 
-      - name: Commit and Push if changed
+      - name: Commit and push if changed
         run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/papers.xml
-          # Only commit if the file has changed
-          git commit -m "Auto-update arXiv papers" || exit 0
+          git diff --cached --quiet && exit 0
+          git commit -m "Auto-update arXiv papers"
           git push

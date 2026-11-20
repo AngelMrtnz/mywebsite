@@ -1,134 +1,66 @@
-// components/PaperEntry.tsx
-'use client';
-
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import LatexRenderer from './LatexRenderer';
 import { FaFilePdf } from 'react-icons/fa';
 import { SiArxiv, SiDoi } from 'react-icons/si';
+import type { Paper } from '@/lib/data';
+import { renderLatex } from '@/lib/latex';
+import { asset } from '@/lib/paths';
+import IconLink from './IconLink';
 
-import { getPublicPath } from '@/lib/paths';
-
-// Define the shape of the paper object
-export interface Paper {
-  title: string;
-  summary: string;
-  authors: { name: string; url: string | null }[];
-  arxivLink: string;
-  pdfLink: string;
-  doi?: string;
-  journalRef?: string;
-}
-
-interface PaperEntryProps {
-  paper: Paper;
-  number: number;
-}
-
-const PaperEntry = ({ paper, number }: PaperEntryProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function PaperEntry({ paper, number }: { paper: Paper; number: number }) {
+  const doiUrl = paper.doi && `https://doi.org/${paper.doi}`;
 
   return (
-    <motion.div
-      layout
-      initial={{ borderRadius: 8 }}
-      className="p-4 md:p-6 border border-gray-200 rounded-lg bg-white"
-    >
-      <motion.div layout className="flex flex-col md:flex-row justify-between items-start gap-4">
-        {/* Left side: Number and Title */}
+    <article className="p-4 md:p-6 border border-gray-200 rounded-lg bg-white">
+      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
         <div className="flex-grow min-w-0">
-          <h2 className="text-xl md:text-2xl font-bold text-urv-black break-words">
-            <span className="text-urv-black mr-3">[{number}]</span>
+          <h2 className="text-xl md:text-2xl font-bold break-words">
+            <span className="mr-3">[{number}]</span>
             {paper.title}
           </h2>
-          <p className="mt-2 text-sm md:text-md text-urv-black leading-relaxed">
-            {paper.authors.map((author, idx) => (
-              <span key={idx}>
-                {author.name}
-                {idx < paper.authors.length - 1 && ', '}
-              </span>
-            ))}
+          <p className="mt-2 text-sm md:text-base leading-relaxed">
+            {paper.authors.map((a) => a.name).join(', ')}
           </p>
-          {(paper.journalRef || paper.doi) && (
-            <p className="mt-1 text-sm md:text-md text-urv-black italic">
+          {(paper.journalRef || doiUrl) && (
+            <p className="mt-1 text-sm md:text-base italic flex flex-wrap gap-x-8">
               {paper.journalRef && <span>{paper.journalRef}</span>}
-              {paper.journalRef && paper.doi && <span className="mx-4"></span>}
-              {paper.doi && (
+              {doiUrl && (
                 <span>
-                  DOI: <a href={`https://doi.org/${paper.doi}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.doi}</a>
+                  DOI:{' '}
+                  <a href={doiUrl} target="_blank" rel="noopener noreferrer">
+                    {paper.doi}
+                  </a>
                 </span>
               )}
             </p>
           )}
-          <div className="mt-3 flex items-center gap-4">
-            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${paper.doi ? 'bg-comp-light-gray text-urv-black' : 'bg-comp-yellow text-urv-black'}`}>
-              {paper.doi ? 'Published' : 'Preprint'}
-            </span>
-          </div>
+          <span
+            className={`inline-block mt-3 text-xs font-semibold px-2 py-1 rounded-full ${
+              paper.doi ? 'bg-comp-light-gray' : 'bg-comp-yellow'
+            }`}
+          >
+            {paper.doi ? 'Published' : 'Preprint'}
+          </span>
         </div>
 
-        {/* Right side: Icons */}
-        <div className="flex items-center gap-6 md:gap-4 text-2xl text-urv-black mt-2 md:mt-0">
-          {paper.doi && (
-            <a
-              href={`https://doi.org/${paper.doi}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="View DOI"
-              className="transition-colors hover:text-comp-red p-1"
-            >
-              <SiDoi />
-            </a>
-          )}
-          <a
-            href={paper.arxivLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="View on ArXiv"
-            className="transition-colors hover:text-comp-red p-1"
-          >
-            <SiArxiv />
-          </a>
-          <a
-            href={paper.pdfLink.startsWith('http') ? paper.pdfLink : getPublicPath(paper.pdfLink)}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Download PDF"
-            className="transition-colors hover:text-comp-red p-1"
-          >
-            <FaFilePdf />
-          </a>
+        <div className="flex items-center gap-6 md:gap-4 text-2xl">
+          {doiUrl && <IconLink href={doiUrl} label="View DOI" icon={SiDoi} />}
+          {paper.arxivUrl && <IconLink href={paper.arxivUrl} label="View on arXiv" icon={SiArxiv} />}
+          {paper.pdfUrl && <IconLink href={asset(paper.pdfUrl)} label="Download PDF" icon={FaFilePdf} />}
         </div>
-      </motion.div>
+      </div>
 
-      {/* "Read More" button */}
-      <motion.button
-        layout
-        onClick={() => setIsOpen(!isOpen)}
-        className="mt-4 text-sm font-bold text-urv-black hover:underline"
-      >
-        {isOpen ? 'Read Less' : 'Read Abstract'}
-      </motion.button>
-
-      {/* Collapsible Abstract Section */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            layout
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
-          >
-            <div className="mt-4 pt-4 border-t border-gray-200 text-justify text-urv-black">
-              <LatexRenderer text={paper.summary} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      {paper.summary && (
+        <details className="group mt-4">
+          <summary className="cursor-pointer list-none text-sm font-bold hover:underline">
+            <span className="group-open:hidden">Read abstract</span>
+            <span className="hidden group-open:inline">Hide abstract</span>
+          </summary>
+          <div
+            className="mt-4 pt-4 border-t border-gray-200 text-justify"
+            // Safe: renderLatex escapes everything that isn't KaTeX output
+            dangerouslySetInnerHTML={{ __html: renderLatex(paper.summary) }}
+          />
+        </details>
+      )}
+    </article>
   );
-};
-
-export default PaperEntry;
+}
