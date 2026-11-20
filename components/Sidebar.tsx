@@ -60,6 +60,29 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           })}
         </ul>
       </nav>
+
+      {/* Little tetromino at the bottom: opens the game */}
+      <Link
+        href="/play"
+        onClick={onNavigate}
+        title="Play"
+        aria-label="Play a game"
+        aria-current={pathname === '/play' ? 'page' : undefined}
+        className={`mt-auto self-center p-1 transition hover:no-underline hover:-translate-y-0.5 ${
+          pathname === '/play' ? 'opacity-100' : 'opacity-60 hover:opacity-100'
+        }`}
+      >
+        <svg width="18" height="12" viewBox="0 0 3 2" aria-hidden className="block">
+          {[
+            [1, 0],
+            [0, 1],
+            [1, 1],
+            [2, 1],
+          ].map(([x, y]) => (
+            <rect key={`${x}${y}`} x={x + 0.06} y={y + 0.06} width={0.88} height={0.88} rx={0.12} fill="white" />
+          ))}
+        </svg>
+      </Link>
     </div>
   );
 }
