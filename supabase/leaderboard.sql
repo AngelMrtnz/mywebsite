@@ -12,6 +12,8 @@ create index if not exists scores_time_idx on public.scores (time_ms);
 
 -- Anyone can read the leaderboard, nobody can write to the table directly.
 alter table public.scores enable row level security;
+revoke all on public.scores from anon, authenticated;
+grant select on public.scores to anon, authenticated;
 
 drop policy if exists "leaderboard is public" on public.scores;
 create policy "leaderboard is public" on public.scores for select to anon, authenticated using (true);

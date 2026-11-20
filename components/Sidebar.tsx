@@ -73,14 +73,8 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         }`}
       >
         <svg width="18" height="12" viewBox="0 0 3 2" aria-hidden className="block">
-          {[
-            [1, 0],
-            [0, 1],
-            [1, 1],
-            [2, 1],
-          ].map(([x, y]) => (
-            <rect key={`${x}${y}`} x={x + 0.06} y={y + 0.06} width={0.88} height={0.88} rx={0.12} fill="white" />
-          ))}
+          {/* T piece as one smooth shape */}
+          <path d="M1 0h1v1h1v1H0V1h1z" fill="white" />
         </svg>
       </Link>
     </div>
