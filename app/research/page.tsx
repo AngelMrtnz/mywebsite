@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import 'katex/dist/katex.min.css';
+import { PageTitle, SectionTitle } from '@/components/Headings';
 import PaperEntry from '@/components/PaperEntry';
 import { getCoauthors, getPapers } from '@/lib/data';
 
@@ -11,7 +12,9 @@ export default function Research() {
 
   return (
     <>
-      <h1 className="text-3xl sm:text-4xl font-bold text-urv-red mb-6">List of publications</h1>
+      <PageTitle>Research</PageTitle>
+
+      <SectionTitle>List of publications</SectionTitle>
 
       <div className="space-y-8">
         {papers.map((paper, i) => (
@@ -22,7 +25,7 @@ export default function Research() {
 
       {coauthors.length > 0 && (
         <section className="mt-16">
-          <h2 className="text-3xl font-bold text-urv-red mb-4">Coauthors</h2>
+          <SectionTitle>Coauthors</SectionTitle>
           <ul className="list-disc list-inside">
             {coauthors.map((author) => (
               <li key={author.name}>

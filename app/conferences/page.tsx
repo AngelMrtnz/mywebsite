@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { FaFilePdf, FaGlobe, FaYoutube } from 'react-icons/fa';
 import Carousel from '@/components/Carousel';
+import { PageTitle, SectionTitle } from '@/components/Headings';
 import IconLink from '@/components/IconLink';
 import { getCarousel, getEvents, type AcademicEvent } from '@/lib/data';
 import { asset } from '@/lib/paths';
@@ -47,7 +48,7 @@ function EventList({ title, events }: { title: string; events: AcademicEvent[] }
   if (events.length === 0) return null;
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-6 border-b border-gray-200 pb-2">{title}</h2>
+      <SectionTitle>{title}</SectionTitle>
       <div className="space-y-6">
         {events.map((event) => (
           <EventCard key={event.title + event.date} event={event} />
@@ -62,7 +63,7 @@ export default function Conferences() {
 
   return (
     <>
-      <h1 className="text-3xl sm:text-4xl font-bold text-urv-red mb-6">Conferences & Academic Events</h1>
+      <PageTitle>Conferences</PageTitle>
 
       <div className="space-y-12">
         <EventList

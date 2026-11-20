@@ -1,5 +1,6 @@
 import { MdEmail } from 'react-icons/md';
 import { SiArxiv, SiGooglescholar, SiInstagram, SiOrcid, SiResearchgate } from 'react-icons/si';
+import { SectionTitle } from '@/components/Headings';
 import { asset } from '@/lib/paths';
 
 const EMAIL = 'angel.martinezm@urv.cat';
@@ -60,7 +61,7 @@ export default function Home() {
       </div>
 
       <div className="pt-10">
-        <h2 className="text-xl font-bold text-urv-red mb-6">Some useful links</h2>
+        <SectionTitle>Some useful links</SectionTitle>
 
         <div className="space-y-4">
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 flex items-center gap-4">

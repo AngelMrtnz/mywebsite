@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { PageTitle, SectionTitle } from '@/components/Headings';
 import { getTeaching } from '@/lib/data';
 
 export const metadata: Metadata = { title: 'Teaching' };
@@ -10,12 +11,14 @@ export default function Teaching() {
 
   return (
     <>
-      <h1 className="text-3xl sm:text-4xl font-bold text-urv-red mb-6">University courses</h1>
+      <PageTitle>Teaching</PageTitle>
+
+      <SectionTitle>University courses</SectionTitle>
 
       <div className="space-y-8">
         {subjects.map((subject) => (
           <div key={subject.title + subject.year} className={card}>
-            <h2 className="text-2xl font-bold mb-3">{subject.title}</h2>
+            <h3 className="text-xl font-bold mb-3">{subject.title}</h3>
             <p className="mb-2 text-sm">
               <span className="font-bold">Year:</span> {subject.year}
             </p>
@@ -26,9 +29,7 @@ export default function Teaching() {
 
       {theses.length > 0 && (
         <section className="mt-12">
-          <h2 className="text-3xl font-bold text-urv-red mb-6 border-b border-gray-200 pb-2">
-            Student supervision
-          </h2>
+          <SectionTitle>Student supervision</SectionTitle>
           <div className="space-y-6">
             {theses.map((thesis) => (
               <div key={thesis.title} className={card}>

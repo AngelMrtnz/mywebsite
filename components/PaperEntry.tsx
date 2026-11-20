@@ -12,10 +12,10 @@ export default function PaperEntry({ paper, number }: { paper: Paper; number: nu
     <article className="p-4 md:p-6 border border-gray-200 rounded-lg bg-white">
       <div className="flex flex-col md:flex-row justify-between items-start gap-4">
         <div className="flex-grow min-w-0">
-          <h2 className="text-xl md:text-2xl font-bold break-words">
+          <h3 className="text-lg md:text-xl font-bold break-words">
             <span className="mr-3">[{number}]</span>
             {paper.title}
-          </h2>
+          </h3>
           <p className="mt-2 text-sm md:text-base leading-relaxed">
             {paper.authors.map((a) => a.name).join(', ')}
           </p>
