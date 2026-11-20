@@ -28,17 +28,24 @@ export default function Home() {
 
       {/* Photo on the left, text next to it (stacked on phones) */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
-        {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
-        <img
-          src={asset('/images/yo.webp')}
-          alt="Ángel Martínez Muñoz"
-          width={397}
-          height={492}
-          fetchPriority="high"
-          className="flex-shrink-0 w-60 h-60 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-white shadow-xl"
-        />
+        <figure className="flex-shrink-0 w-56 lg:w-64 text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
+          <img
+            src={asset('/images/yo.webp')}
+            alt="Ángel Martínez Muñoz"
+            width={397}
+            height={492}
+            fetchPriority="high"
+            className="w-full aspect-[397/492] object-cover rounded-2xl shadow-lg ring-1 ring-black/5"
+          />
+          <figcaption className="mt-4">
+            <span className="block text-lg font-bold">Ángel Martínez Muñoz</span>
+            <span className="block text-sm text-gray-500">PhD student in Mathematics</span>
+            <span className="block text-sm text-gray-500">Universitat Rovira i Virgili</span>
+          </figcaption>
+        </figure>
 
-        <div className="text-lg sm:text-xl sm:text-justify hyphens-auto space-y-6">
+        <div className="max-w-2xl text-lg leading-relaxed space-y-5">
           <p>
             I am a PhD student in Mathematics at the{' '}
             <External href="https://www.urv.cat/ca/">Universitat Rovira i Virgili</External>, Tarragona, Spain,
