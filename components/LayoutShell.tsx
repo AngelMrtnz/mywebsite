@@ -70,7 +70,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
           <span className="text-lg font-bold tracking-wide">Ángel Martínez Muñoz</span>
         </header>
 
-        <div key={pathname} className="max-w-6xl px-4 sm:px-8 lg:px-10 pt-6 pb-8 lg:pt-10 animate-fade-in">
+        <div key={pathname} className="px-4 sm:px-8 lg:px-12 pt-6 pb-8 lg:pt-10 animate-fade-in">
           {children}
         </div>
       </main>
