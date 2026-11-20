@@ -45,7 +45,7 @@ export default function Home() {
           </figcaption>
         </figure>
 
-        <div className="max-w-2xl text-lg leading-relaxed space-y-5">
+        <div className="flex-1 min-w-0 text-lg leading-relaxed space-y-5">
           <p>
             I am a PhD student in Mathematics at the{' '}
             <External href="https://www.urv.cat/ca/">Universitat Rovira i Virgili</External>, Tarragona, Spain,
