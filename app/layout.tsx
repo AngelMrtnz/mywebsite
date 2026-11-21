@@ -9,7 +9,7 @@ const lato = Lato({ subsets: ['latin'], weight: ['400', '700'] });
 export const metadata: Metadata = {
   title: 'Ángel Martínez Muñoz', // same tab title on every page
   description: 'PhD student in Mathematics at Universitat Rovira i Virgili',
-  icons: { icon: asset('/favicon.svg') },
+  icons: { icon: asset('/icon-alpha.svg') }, // new file name whenever the icon changes, so browsers drop their saved copy
   referrer: 'strict-origin-when-cross-origin',
 };
 
