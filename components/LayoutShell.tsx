@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import FaviconAnimator from './FaviconAnimator';
 import Sidebar from './Sidebar';
 import VisitCounter from './VisitCounter';
 
@@ -32,7 +31,6 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex h-dvh overflow-hidden">
-      <FaviconAnimator />
       <VisitCounter />
 
       {/* Sidebar: slide-in drawer on small screens, always shown on large ones */}
