@@ -79,7 +79,17 @@ export function getCoauthors(papers: Paper[]): Author[] {
   for (const author of papers.flatMap((p) => p.authors)) {
     if (!isMe(author.name)) byName.set(author.name, author);
   }
-  return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+  return [...byName.values()].sort((a, b) => surnameKey(a.name).localeCompare(surnameKey(b.name), 'es'));
+}
+
+/**
+ * Sort key by surname: everything after the first name, without leading particles
+ * ("Manuel de León" -> "León Manuel", "Rubén Izquierdo-López" -> "Izquierdo-López Rubén").
+ */
+function surnameKey(name: string): string {
+  const [first, ...rest] = name.trim().split(/\s+/);
+  while (rest.length > 1 && /^(de|del|la|las|los|van|von|der|da|di|du|le|i|y)$/i.test(rest[0])) rest.shift();
+  return `${rest.join(' ')} ${first}`;
 }
 
 // ---------- Conferences (public/conferences.xml) ----------
