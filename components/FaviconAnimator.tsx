@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 
 const SIZE = 32;
-const FRAMES = 120; // one full period of the orbit
-const FRAME_MS = 70;
+const FRAMES = 200; // one full period of the orbit
+const FRAME_MS = 45;
 const SCALE = 10.5; // orbit units -> pixels (the orbit spans about ±1.15)
 const DOT = 2.3;
 const COLORS = ['#4ADE80', '#22C55E', '#16A34A'];
@@ -16,12 +16,13 @@ type Point = [number, number];
  * The "moth I" periodic orbit of the planar three-body problem (Šuvakov & Dmitrašinović, 2013):
  * three equal masses (G = m = 1) start at (−1, 0), (1, 0), (0, 0) with velocities (p1, p2),
  * (p1, p2), (−2p1, −2p2) and come back to the start after one period.
- * Integrated once with classic Runge–Kutta; returns the three positions at FRAMES moments.
+ * Integrated once with classic Runge–Kutta. Frames are picked so that the bodies move about the
+ * same distance from one frame to the next (not equal time steps): the bodies race through
+ * close encounters, and equal time steps would make them jump there.
  */
 function mothOrbit(): Point[][] {
   const [p1, p2, period] = [0.464445, 0.39606, 14.8939];
-  const perFrame = 130;
-  const steps = FRAMES * perFrame;
+  const steps = 12000;
   const dt = period / steps;
 
   // State: positions then velocities, flattened [x1, y1, x2, y2, x3, y3, vx1, ..., vy3]
@@ -45,14 +46,30 @@ function mothOrbit(): Point[][] {
   };
   const step = (q: number[], d: number[], h: number) => q.map((v, k) => v + d[k] * h);
 
-  const frames: Point[][] = [];
+  const positions = () => [0, 1, 2].map((i) => [s[2 * i], s[2 * i + 1]] as Point);
+  const states: Point[][] = [positions()];
+  const travelled = [0]; // running total of how far the fastest body has moved
   for (let n = 0; n < steps; n++) {
-    if (n % perFrame === 0) frames.push([0, 1, 2].map((i) => [s[2 * i], s[2 * i + 1]] as Point));
     const k1 = deriv(s);
     const k2 = deriv(step(s, k1, dt / 2));
     const k3 = deriv(step(s, k2, dt / 2));
     const k4 = deriv(step(s, k3, dt));
     s = s.map((v, k) => v + (dt / 6) * (k1[k] + 2 * k2[k] + 2 * k3[k] + k4[k]));
+    const prev = states[states.length - 1];
+    const now = positions();
+    const moved = Math.max(...now.map(([x, y], i) => Math.hypot(x - prev[i][0], y - prev[i][1])));
+    states.push(now);
+    travelled.push(travelled[travelled.length - 1] + moved);
+  }
+
+  // Equal distance between frames
+  const total = travelled[travelled.length - 1];
+  const frames: Point[][] = [];
+  let k = 0;
+  for (let f = 0; f < FRAMES; f++) {
+    const target = (f / FRAMES) * total;
+    while (travelled[k] < target) k++;
+    frames.push(states[k]);
   }
   return frames;
 }
@@ -82,22 +99,32 @@ export default function FaviconAnimator() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const frames = mothOrbit().map((bodies) => drawBodies(ctx, bodies));
+    let timer = 0;
+    // Work out the orbit once the page is idle, so it never delays the page itself
+    const start = () => {
+      const frames = mothOrbit().map((bodies) => drawBodies(ctx, bodies));
 
-    let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
-    if (!link) {
-      link = document.createElement('link');
-      link.rel = 'icon';
-      document.head.appendChild(link);
-    }
+      let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
 
-    let i = 0;
-    const timer = setInterval(() => {
-      if (document.hidden) return; // nobody is looking: do nothing
-      link!.href = frames[(i = (i + 1) % FRAMES)];
-    }, FRAME_MS);
+      let i = 0;
+      timer = window.setInterval(() => {
+        if (document.hidden) return; // nobody is looking: do nothing
+        link!.href = frames[(i = (i + 1) % FRAMES)];
+      }, FRAME_MS);
+    };
+    const hasIdle = typeof window.requestIdleCallback === 'function';
+    const idle = hasIdle ? window.requestIdleCallback(start, { timeout: 2000 }) : setTimeout(start, 300);
 
-    return () => clearInterval(timer);
+    return () => {
+      if (hasIdle) window.cancelIdleCallback(idle as number);
+      else clearTimeout(idle);
+      window.clearInterval(timer);
+    };
   }, []);
 
   return null;
