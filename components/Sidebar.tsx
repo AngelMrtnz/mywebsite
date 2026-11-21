@@ -18,7 +18,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname(); // already without the /mywebsite base path
 
   return (
-    <div className="bg-urv-red text-white w-72 max-w-[85vw] h-full px-6 pt-24 pb-3 lg:pt-12 flex flex-col shadow-2xl overflow-y-auto">
+    <div className="bg-urv-red text-white w-72 max-w-[85vw] h-full px-6 pt-24 pb-8 lg:pt-12 flex flex-col shadow-2xl overflow-y-auto">
       <div className="text-center mb-8">
         <p className="text-3xl font-bold tracking-wide leading-tight">
           Ángel
@@ -60,23 +60,6 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           })}
         </ul>
       </nav>
-
-      {/* Little tetromino at the bottom: opens the game */}
-      <Link
-        href="/play"
-        onClick={onNavigate}
-        title="40 line race"
-        aria-label="40 line race"
-        aria-current={pathname === '/play' ? 'page' : undefined}
-        className={`mt-auto self-center p-1 hover:no-underline ${
-          pathname === '/play' ? 'opacity-100' : 'opacity-60 hover:opacity-100'
-        }`}
-      >
-        <svg width="12" height="8" viewBox="0 0 3 2" aria-hidden className="block">
-          {/* T piece as one smooth shape */}
-          <path d="M1 0h1v1h1v1H0V1h1z" fill="white" />
-        </svg>
-      </Link>
     </div>
   );
 }
