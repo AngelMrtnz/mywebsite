@@ -26,8 +26,8 @@ export default function Home() {
     <section className="mb-12">
       <PageTitle>About me</PageTitle>
 
-      {/* Round photo; from tablet width up the text flows around the circle */}
-      <div className="flow-root text-lg leading-relaxed">
+      {/* Round photo on the left, text next to it (stacked on phones) */}
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
         {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
         <img
           src={asset('/images/yo.webp')}
@@ -35,10 +35,9 @@ export default function Home() {
           width={256}
           height={256}
           fetchPriority="high"
-          className="block mx-auto mb-6 w-56 lg:w-64 aspect-square object-cover object-[50%_30%] rounded-full shadow-lg ring-1 ring-black/5
-            md:float-left md:mb-0 md:mr-0 md:[shape-outside:circle(50%)] md:[shape-margin:2.5rem]"
+          className="flex-shrink-0 w-56 lg:w-64 aspect-square object-cover object-[50%_30%] rounded-full border-[3px] border-urv-black shadow-lg"
         />
-        <div className="space-y-5">
+        <div className="flex-1 min-w-0 text-lg leading-relaxed space-y-5">
           <p>
             I am a PhD student in Mathematics at the{' '}
             <External href="https://www.urv.cat/ca/">Universitat Rovira i Virgili</External>, Tarragona, Spain,
