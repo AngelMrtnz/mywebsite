@@ -1,6 +1,7 @@
 import { MdEmail } from 'react-icons/md';
 import { SiArxiv, SiGooglescholar, SiInstagram, SiOrcid, SiResearchgate } from 'react-icons/si';
 import { PageTitle, SectionTitle } from '@/components/Headings';
+import PhotoWrap from '@/components/PhotoWrap';
 import { asset } from '@/lib/paths';
 
 const EMAIL = 'angel.martinezm@urv.cat';
@@ -26,40 +27,41 @@ export default function Home() {
     <section className="mb-12">
       <PageTitle>About me</PageTitle>
 
-      {/* Round photo on the left, text next to it (stacked on phones) */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
-        {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
-        <img
-          src={asset('/images/yo.webp')}
-          alt="Ángel Martínez Muñoz"
-          width={256}
-          height={256}
-          fetchPriority="high"
-          className="flex-shrink-0 w-56 lg:w-64 aspect-square object-cover object-[50%_30%] rounded-full border-[3px] border-urv-black shadow-lg"
-        />
-        <div className="flex-1 min-w-0 text-lg leading-relaxed space-y-5">
-          <p>
-            I am a PhD student in Mathematics at the{' '}
-            <External href="https://www.urv.cat/ca/">Universitat Rovira i Virgili</External>, Tarragona, Spain,
-            supported by the Martí i Franqués grant (2025PMF-PIPF-14). My primary research interests lie in
-            differential geometry, with a focus on its applications to mathematical physics.
-          </p>
-          <p>
-            Currently, I am working on my PhD thesis on singular Lagrangian systems and the different geometrical
-            structures that arise in this context, under the supervision of Professors{' '}
-            <External href="https://web.mat.upc.edu/xavier.gracia/">Xavier Gràcia Sabaté</External> and{' '}
-            <External href="https://xrivas.com/">Xavier Rivas Guijarro</External>.
-          </p>
-          <p>
-            I completed my Degree in Mathematics (2020–2024) at the Universitat Politècnica de Catalunya (UPC). I
-            wrote my bachelor&apos;s thesis on geometric integrators (see{' '}
-            <External href={asset('/theses/bachelor-thesis.pdf')}>here</External>). I then obtained a master&apos;s
-            degree in Advanced Mathematics and Mathematical Engineering (2025) from the same institution. I wrote my
-            master&apos;s thesis on contact geometry and singular Lagrangian systems (see{' '}
-            <External href={asset('/theses/master-thesis.pdf')}>here</External>).
-          </p>
-        </div>
-      </div>
+      {/* Round photo; the paragraphs step around it one by one (stacked on phones) */}
+      <PhotoWrap
+        photo={
+          // eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer
+          <img
+            src={asset('/images/yo.webp')}
+            alt="Ángel Martínez Muñoz"
+            width={256}
+            height={256}
+            fetchPriority="high"
+            className="block w-full aspect-square object-cover object-[50%_30%] rounded-full border-[3px] border-urv-black shadow-lg"
+          />
+        }
+      >
+        <p>
+          I am a PhD student in Mathematics at the{' '}
+          <External href="https://www.urv.cat/ca/">Universitat Rovira i Virgili</External>, Tarragona, Spain,
+          supported by the Martí i Franqués grant (2025PMF-PIPF-14). My primary research interests lie in
+          differential geometry, with a focus on its applications to mathematical physics.
+        </p>
+        <p>
+          Currently, I am working on my PhD thesis on singular Lagrangian systems and the different geometrical
+          structures that arise in this context, under the supervision of Professors{' '}
+          <External href="https://web.mat.upc.edu/xavier.gracia/">Xavier Gràcia Sabaté</External> and{' '}
+          <External href="https://xrivas.com/">Xavier Rivas Guijarro</External>.
+        </p>
+        <p>
+          I completed my Degree in Mathematics (2020–2024) at the Universitat Politècnica de Catalunya (UPC). I
+          wrote my bachelor&apos;s thesis on geometric integrators (see{' '}
+          <External href={asset('/theses/bachelor-thesis.pdf')}>here</External>). I then obtained a master&apos;s
+          degree in Advanced Mathematics and Mathematical Engineering (2025) from the same institution. I wrote my
+          master&apos;s thesis on contact geometry and singular Lagrangian systems (see{' '}
+          <External href={asset('/theses/master-thesis.pdf')}>here</External>).
+        </p>
+      </PhotoWrap>
 
       <div className="pt-10">
         <SectionTitle>Some useful links</SectionTitle>
