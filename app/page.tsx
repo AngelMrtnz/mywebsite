@@ -36,7 +36,7 @@ export default function Home() {
           height={256}
           fetchPriority="high"
           className="block mx-auto mb-6 w-56 lg:w-64 aspect-square object-cover object-[50%_30%] rounded-full shadow-lg ring-1 ring-black/5
-            md:float-left md:mb-0 md:mr-0 md:[shape-outside:circle(50%)] md:[shape-margin:1.5rem]"
+            md:float-left md:mb-0 md:mr-0 md:[shape-outside:circle(50%)] md:[shape-margin:2.5rem]"
         />
         <div className="space-y-5">
           <p>
