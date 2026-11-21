@@ -83,12 +83,11 @@ export function getCoauthors(papers: Paper[]): Author[] {
 }
 
 /**
- * Sort key by surname: everything after the first name, without leading particles
- * ("Manuel de León" -> "León Manuel", "Rubén Izquierdo-López" -> "Izquierdo-López Rubén").
+ * Sort key by surname: everything after the first name, particles included
+ * ("Manuel de León" -> "de León Manuel", so it sorts under D).
  */
 function surnameKey(name: string): string {
   const [first, ...rest] = name.trim().split(/\s+/);
-  while (rest.length > 1 && /^(de|del|la|las|los|van|von|der|da|di|du|le|i|y)$/i.test(rest[0])) rest.shift();
   return `${rest.join(' ')} ${first}`;
 }
 
