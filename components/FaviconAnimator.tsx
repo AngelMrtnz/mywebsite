@@ -22,7 +22,7 @@ type Point = [number, number];
  */
 function mothOrbit(): Point[][] {
   const [p1, p2, period] = [0.464445, 0.39606, 14.8939];
-  const steps = 12000;
+  const steps = 6000;
   const dt = period / steps;
 
   // State: positions then velocities, flattened [x1, y1, x2, y2, x3, y3, vx1, ..., vy3]
@@ -74,15 +74,40 @@ function mothOrbit(): Point[][] {
   return frames;
 }
 
-/** Draws the three bodies and returns the frame as a PNG data URL. */
-function drawBodies(ctx: CanvasRenderingContext2D, bodies: Point[]): string {
+const TRAIL = 14; // how many earlier frames each body's trail reaches back
+
+const toPixel = ([x, y]: Point) => [SIZE / 2 + x * SCALE, SIZE / 2 - y * SCALE];
+
+/** Draws frame f: a short fading trail behind each body, then the bodies. Returns a PNG data URL. */
+function drawBodies(ctx: CanvasRenderingContext2D, orbit: Point[][], f: number): string {
   ctx.clearRect(0, 0, SIZE, SIZE);
+  const at = (k: number) => orbit[(f - k + orbit.length) % orbit.length];
+
+  // Trails: each segment a little fainter and thinner the older it is
+  ctx.lineCap = 'round';
+  for (let i = 0; i < 3; i++) {
+    ctx.strokeStyle = COLORS[i];
+    for (let k = TRAIL; k > 0; k--) {
+      const fade = 1 - k / (TRAIL + 1);
+      const [x0, y0] = toPixel(at(k)[i]);
+      const [x1, y1] = toPixel(at(k - 1)[i]);
+      ctx.globalAlpha = 0.6 * fade;
+      ctx.lineWidth = 0.6 + 1.6 * fade;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+
   ctx.strokeStyle = OUTLINE;
   ctx.lineWidth = 1;
-  bodies.forEach(([x, y], i) => {
+  orbit[f].forEach((body, i) => {
+    const [x, y] = toPixel(body);
     ctx.fillStyle = COLORS[i];
     ctx.beginPath();
-    ctx.arc(SIZE / 2 + x * SCALE, SIZE / 2 - y * SCALE, DOT, 0, 2 * Math.PI);
+    ctx.arc(x, y, DOT, 0, 2 * Math.PI);
     ctx.fill();
     ctx.stroke();
   });
@@ -99,32 +124,28 @@ export default function FaviconAnimator() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let timer = 0;
-    // Work out the orbit once the page is idle, so it never delays the page itself
-    const start = () => {
-      const frames = mothOrbit().map((bodies) => drawBodies(ctx, bodies));
+    // The orbit is quick to work out (a few tens of ms); each frame is drawn the first time
+    // it is shown and then reused.
+    const orbit = mothOrbit();
+    const frames: string[] = [];
 
-      let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
-      if (!link) {
-        link = document.createElement('link');
+    let i = 0;
+    const timer = window.setInterval(() => {
+      if (document.hidden) return; // nobody is looking: do nothing
+      i = (i + 1) % FRAMES;
+      frames[i] ??= drawBodies(ctx, orbit, i);
+      // Look the icon up every time: Next.js may swap the <link> when you change page
+      let links = document.querySelectorAll<HTMLLinkElement>("link[rel~='icon']");
+      if (!links.length) {
+        const link = document.createElement('link');
         link.rel = 'icon';
         document.head.appendChild(link);
+        links = document.querySelectorAll<HTMLLinkElement>("link[rel~='icon']");
       }
+      links.forEach((link) => (link.href = frames[i]));
+    }, FRAME_MS);
 
-      let i = 0;
-      timer = window.setInterval(() => {
-        if (document.hidden) return; // nobody is looking: do nothing
-        link!.href = frames[(i = (i + 1) % FRAMES)];
-      }, FRAME_MS);
-    };
-    const hasIdle = typeof window.requestIdleCallback === 'function';
-    const idle = hasIdle ? window.requestIdleCallback(start, { timeout: 2000 }) : setTimeout(start, 300);
-
-    return () => {
-      if (hasIdle) window.cancelIdleCallback(idle as number);
-      else clearTimeout(idle);
-      window.clearInterval(timer);
-    };
+    return () => window.clearInterval(timer);
   }, []);
 
   return null;
